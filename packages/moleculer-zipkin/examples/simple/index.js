@@ -5,7 +5,7 @@ const { MoleculerError } 	= require("moleculer").Errors;
 const ZipkinService 		= require("../../index");
 const _ 					= require("lodash");
 
-const THROW_ERR = true;
+const THROW_ERR = false;
 
 // Create broker
 const broker = new ServiceBroker({

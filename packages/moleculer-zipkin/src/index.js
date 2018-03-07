@@ -11,6 +11,8 @@ let axios = require("axios");
 /**
  * Zipkin tracing addons.
  *
+ * API: https://zipkin.io/zipkin-api/#/
+ *
  * Running Zipkin in Docker:
  *
  * 	 docker run -d -p 9411:9411 --name=zipkin openzipkin/zipkin
@@ -42,7 +44,7 @@ module.exports = {
 
 			const payload = {
 				name: metric.action.name,
-				kind: "CLIENT",
+				kind: "CONSUMER",
 
 				// Trace & span IDs
 				traceId: this.convertID(metric.requestID),
@@ -51,14 +53,10 @@ module.exports = {
 
 				localEndpoint: {
 					serviceName: serviceName,
-					ipv4: "",
-					port: 0
 				},
 
 				remoteEndpoint: {
 					serviceName: serviceName,
-					ipv4: "",
-					port: 0
 				},
 
 				annotations: [
@@ -77,7 +75,8 @@ module.exports = {
 				timestamp: this.convertTime(metric.startTime),
 				durationMicros: Math.round(metric.duration * 1000),
 
-				debug: true
+				//debug: true,
+				//shared: true
 			};
 
 			if (metric.params)
