@@ -1,26 +1,76 @@
 "use strict";
 
 const { ServiceBroker } = require("moleculer");
-const MyService = require("../../src");
+const ZipkinService = require("../../src");
 
-describe("Test MyService", () => {
+describe("Test ZipkinService constructor", () => {
 	const broker = new ServiceBroker();
-	const service = broker.createService(MyService);
+	const service = broker.createService(ZipkinService);
 
 	it("should be created", () => {
 		expect(service).toBeDefined();
+		expect(service.queue).toBeInstanceOf(Array);
 	});
 
-	it("should return with 'Hello Anonymous'", () => {
-		return broker.call("zipkin.test").then(res => {
-			expect(res).toBe("Hello Anonymous");
+});
+
+describe("Test ZipkinService started & stopped", () => {
+
+	describe("with batchTime", () => {
+		const broker = new ServiceBroker();
+		const service = broker.createService(ZipkinService);
+
+		beforeAll(() => broker.start());
+
+		it("should start timer", () => {
+			expect(service).toBeDefined();
+			expect(service.timer).toBeDefined();
+
+			return broker.stop();
 		});
+
+		it("should destroy timer", () => {
+			expect(service.timer).toBeNull();
+		});
+
 	});
 
-	it("should return with 'Hello John'", () => {
-		return broker.call("zipkin.test", { name: "John" }).then(res => {
-			expect(res).toBe("Hello John");
+	describe("with batchTime & queued items", () => {
+		const broker = new ServiceBroker();
+		const service = broker.createService(ZipkinService);
+
+		beforeAll(() => broker.start());
+
+		it("should call sendFromQueue at stopping", () => {
+			service.sendFromQueue = jest.fn();
+
+			service.queue.push({});
+
+			return broker.stop().then(() => {
+				expect(service.sendFromQueue).toHaveBeenCalledTimes(1);
+				expect(service.sendFromQueue).toHaveBeenCalledWith();
+			});
 		});
+
+	});
+
+	describe("without batchTime", () => {
+		const broker = new ServiceBroker();
+		const service = broker.createService(ZipkinService, {
+			settings: {
+				batchTime: 0
+			}
+		});
+
+		beforeAll(() => broker.start());
+
+		it("should start timer", () => {
+			expect(service).toBeDefined();
+			expect(service.timer).toBeUndefined();
+
+			return broker.stop();
+		});
+
 	});
 
 });
