@@ -69,7 +69,7 @@ module.exports = {
 		 * Get service name from metric event
 		 *
 		 * @param {Object} metric
-		 * @returns
+		 * @returns {String}
 		 */
 		getServiceName(metric) {
 			if (metric.service)
@@ -84,7 +84,7 @@ module.exports = {
 		 * Get span name from metric event. By default it returns the action name
 		 *
 		 * @param {Object} metric
-		 * @returns
+		 * @returns  {String}
 		 */
 		getSpanName(metric) {
 			if (metric.name)

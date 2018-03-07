@@ -2,17 +2,46 @@
 
 # moleculer-zipkin [![NPM version](https://img.shields.io/npm/v/moleculer-zipkin.svg)](https://www.npmjs.com/package/moleculer-zipkin)
 
-Zipkin tracing addons.
+Moleculer metrics module for [Zipkin](https://zipkin.io/).
 
 # Features
+- support `v1` & `v2` API.
+- send spans via HTTP.
+- batch or single sending.
 
 # Install
 
 ```bash
-$ npm install moleculer-zipkin --save
+$ npm install moleculer-zipkin
 ```
 
 # Usage
+
+```js
+// services/metrics.zipkin.js
+
+const ZipkinService = require("moleculer-zipkin");
+
+module.exports = {
+    mixins: [ZipkinService],
+    settings: {
+        baseURL: "http://192.168.0.181:9411",
+        version: "v2",
+        batchTime: 1000,
+        payloadOptions: {
+            debug: false,
+            shared: false
+        }
+    }
+});
+
+// moleculer.config.js
+module.exports = {
+    // ...
+    metrics: true,
+    // ...
+}
+```
 
 <!-- AUTO-CONTENT-START:USAGE -->
 <!-- AUTO-CONTENT-END:USAGE -->
@@ -30,6 +59,15 @@ $ npm install moleculer-zipkin --save
 # Settings
 
 <!-- AUTO-CONTENT-START:SETTINGS -->
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `baseURL` | `String` | **required** | Base URL for Zipkin server. |
+| `version` | `String` | **required** | Zipkin REST API version. |
+| `batchTime` | `Number` | **required** | Batch send time interal. Disable: 0 |
+| `payloadOptions` | `Object` | **required** | Additional payload options. |
+| `payloadOptions.debug` | `Boolean` | **required** | Set `debug` property in v2 payload. |
+| `payloadOptions.shared` | `Boolean` | **required** | Set `shared` property in v2 payload. |
+
 <!-- AUTO-CONTENT-END:SETTINGS -->
 
 <!-- AUTO-CONTENT-TEMPLATE:SETTINGS
