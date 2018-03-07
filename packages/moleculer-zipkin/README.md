@@ -43,6 +43,8 @@ module.exports = {
 }
 ```
 
+![Zipkin screenshot](https://files.gitter.im/icebob/yARl/image.png)
+
 <!-- AUTO-CONTENT-START:USAGE -->
 <!-- AUTO-CONTENT-END:USAGE -->
 
