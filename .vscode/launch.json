@@ -11,7 +11,7 @@
 			"program": "${workspaceRoot}\\dev",
 			"cwd": "${workspaceRoot}",
 			"args": [
-				"moleculer-db-adapter-sequelize",
+				"moleculer-zipkin",
 				"simple"
 			]
 		},
@@ -22,18 +22,11 @@
 			"program": "${workspaceRoot}/node_modules/moleculer-docgen/index.js",
 			"args": [
 				"-t",
-				"packages\\moleculer-db\\README.test.md",
-				"packages\\moleculer-db\\src\\index.js"
+				"packages\\moleculer-zipkin\\README.test.md",
+				"packages\\moleculer-zipkin\\src\\index.js"
 			],
 			"stopOnEntry": true
 
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "Launch readme",
-			"program": "${workspaceRoot}\\readme-generator",
-			"cwd": "${workspaceRoot}"
 		},
 		{
 			"type": "node",

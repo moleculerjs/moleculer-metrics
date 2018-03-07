@@ -18,6 +18,11 @@ $ npm install moleculer-zipkin --save
 <!-- AUTO-CONTENT-END:USAGE -->
 
 <!-- AUTO-CONTENT-TEMPLATE:USAGE
+{{#hasExamples}}
+{{#each examples}}
+{{{this}}}
+{{/each}}
+{{/hasExamples}}
 -->
 
 
@@ -30,21 +35,12 @@ $ npm install moleculer-zipkin --save
 <!-- AUTO-CONTENT-TEMPLATE:SETTINGS
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
-| `` |  |  |  |
+{{#each this}}
+| `{{name}}` | {{type}} | {{defaultValue}} | {{description}} |
+{{/each}}
+{{^this}}
+*No settings.*
+{{/this}}
 
 -->
 
@@ -53,171 +49,39 @@ $ npm install moleculer-zipkin --save
 <!-- AUTO-CONTENT-END:ACTIONS -->
 
 <!-- AUTO-CONTENT-TEMPLATE:ACTIONS
-## `` 
+{{#each this}}
+## `{{name}}` {{#each badges}}{{this}} {{/each}}
+{{#since}}
+_<sup>Since: {{this}}</sup>_
+{{/since}}
 
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
+{{description}}
 
 ### Parameters
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
+{{#each params}}
+| `{{name}}` | {{type}} | {{defaultValue}} | {{description}} |
+{{/each}}
+{{^params}}
 *No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
+{{/params}}
+
+{{#returns}}
+### Results
+**Type:** {{type}}
+
+{{description}}
+{{/returns}}
+
+{{#hasExamples}}
+### Examples
+{{#each examples}}
+{{this}}
+{{/each}}
+{{/hasExamples}}
+
+{{/each}}
 -->
 
 # Methods
@@ -226,171 +90,39 @@ $ npm install moleculer-zipkin --save
 <!-- AUTO-CONTENT-END:METHODS -->
 
 <!-- AUTO-CONTENT-TEMPLATE:METHODS
-## `` 
+{{#each this}}
+## `{{name}}` {{#each badges}}{{this}} {{/each}}
+{{#since}}
+_<sup>Since: {{this}}</sup>_
+{{/since}}
 
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
+{{description}}
 
 ### Parameters
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
+{{#each params}}
+| `{{name}}` | {{type}} | {{defaultValue}} | {{description}} |
+{{/each}}
+{{^params}}
 *No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
-## `` 
-
-
-
-### Parameters
-| Property | Type | Default | Description |
-| -------- | ---- | ------- | ----------- |
-*No input parameters.*
-
-
-
+{{/params}}
+
+{{#returns}}
+### Results
+**Type:** {{type}}
+
+{{description}}
+{{/returns}}
+
+{{#hasExamples}}
+### Examples
+{{#each examples}}
+{{this}}
+{{/each}}
+{{/hasExamples}}
+
+{{/each}}
 -->
 
 # Test
