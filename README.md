@@ -7,7 +7,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/moleculerjs/moleculer-metrics/badge.svg)](https://snyk.io/test/github/moleculerjs/moleculer-metrics)
 [![Join the chat at https://gitter.im/moleculerjs/moleculer](https://badges.gitter.im/moleculerjs/moleculer.svg)](https://gitter.im/moleculerjs/moleculer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-# Official monitoring & metrics addons for Moleculer framework
+# Monitoring & metrics addons for Moleculer framework
 
 <!-- AUTO-GENERATED-CONTENT:START (RENDERLIST:folder=packages&title=Generals) -->
 ## Generals

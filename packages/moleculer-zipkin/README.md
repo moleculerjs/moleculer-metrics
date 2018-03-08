@@ -4,6 +4,8 @@
 
 Moleculer metrics module for [Zipkin](https://zipkin.io/).
 
+![Zipkin screenshot](https://files.gitter.im/icebob/yARl/image.png)
+
 # Features
 - support `v1` & `v2` API.
 - send spans via HTTP.
@@ -42,8 +44,6 @@ module.exports = {
     // ...
 }
 ```
-
-![Zipkin screenshot](https://files.gitter.im/icebob/yARl/image.png)
 
 <!-- AUTO-CONTENT-START:USAGE -->
 <!-- AUTO-CONTENT-END:USAGE -->
