@@ -234,6 +234,10 @@ module.exports = {
 			}
 		},
 
+		/**
+		 * Send all spans from the queue.
+		 *
+		 */
 		sendFromQueue() {
 			if (this.queue.length > 0) {
 				const payloads = this.queue;
@@ -319,6 +323,7 @@ module.exports = {
 	 * Service created lifecycle event handler
 	 */
 	created() {
+		/* istanbul ignore next */
 		if (!this.settings.baseURL) {
 			this.logger.warn("The 'baseURL' is not defined in service settings. Tracing is DISABLED!");
 		}
@@ -331,13 +336,7 @@ module.exports = {
 	 */
 	started() {
 		if (this.settings.batchTime > 0) {
-			this.timer = setInterval(() => {
-
-				if (this.queue.length > 0) {
-					this.sendFromQueue();
-				}
-
-			}, this.settings.batchTime);
+			this.timer = setInterval(() => this.sendFromQueue(), this.settings.batchTime);
 		}
 	},
 

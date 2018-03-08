@@ -21,7 +21,7 @@ broker.createService({
 	settings: {
 		baseURL: process.env.ZIPKIN_URL || "http://192.168.51.29:9411",
 		//batchTime: 0,
-		//version: "v2",
+		version: "v1",
 	}
 });
 
