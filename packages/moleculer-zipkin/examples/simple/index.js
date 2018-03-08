@@ -5,7 +5,7 @@ const { MoleculerError } 	= require("moleculer").Errors;
 const ZipkinService 		= require("../../index");
 const _ 					= require("lodash");
 
-const THROW_ERR = true;
+const THROW_ERR = false;
 
 // Create broker
 const broker = new ServiceBroker({
@@ -19,7 +19,7 @@ const broker = new ServiceBroker({
 broker.createService({
 	mixins: [ZipkinService],
 	settings: {
-		baseURL: "http://192.168.0.181:9411",
+		baseURL: process.env.ZIPKIN_URL || "http://192.168.51.29:9411",
 		//batchTime: 0,
 		//version: "v2",
 	}

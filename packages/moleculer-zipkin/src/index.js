@@ -251,12 +251,15 @@ module.exports = {
 			if (this.settings.baseURL) {
 				axios.post(`${this.settings.baseURL}/api/${this.settings.version}/spans`, payloads)
 					.then(() => this.logger.debug(`${payloads.length} span(s) sent.`))
-					.catch(err => this.logger.debug("Span sending error!", err.response.data, payloads));
+					.catch(err => {
+						const message = err.response ? err.response.data : err.message;
+						this.logger.debug("Span sending error!", message, payloads);
+					});
 			}
 		},
 
 		/**
-		 * Add binary annotation to the payload
+		 * Add binary annotation to v1 payload
 		 *
 		 * @param {Object} payload
 		 * @param {String} key
