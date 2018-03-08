@@ -10,7 +10,10 @@
 # Official monitoring & metrics addons for Moleculer framework
 
 <!-- AUTO-GENERATED-CONTENT:START (RENDERLIST:folder=packages&title=Generals) -->
- 
+## Generals
+| Name | Version | Description |
+| ---- | ------- | ----------- |
+| [moleculer-zipkin](/packages/moleculer-zipkin#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-zipkin.svg)](https://www.npmjs.com/package/moleculer-zipkin) | Zipkin tracing addons. |
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 # Contribution
