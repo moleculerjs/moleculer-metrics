@@ -11,7 +11,7 @@
 			"program": "${workspaceRoot}\\dev",
 			"cwd": "${workspaceRoot}",
 			"args": [
-				"moleculer-jaeger",
+				"moleculer-zipkin",
 				"simple"
 			]
 		},

@@ -270,16 +270,15 @@ module.exports = {
 		 * @param {Object} payload
 		 * @param {String} key
 		 * @param {any} value
+		 * @param {String?} prefix
 		 */
-		addBinaryAnnotation(payload, key, value) {
+		addBinaryAnnotation(payload, key, value, prefix) {
+			const name = prefix ? (prefix + "." + key) : key;
 			if (typeof value == "object") {
-				payload.binaryAnnotations.push({
-					key,
-					value: JSON.stringify(value)
-				});
+				Object.keys(value).forEach(k => this.addBinaryAnnotation(payload, k, value[k], name));
 			} else {
 				payload.binaryAnnotations.push({
-					key,
+					key: name,
 					value: String(value)
 				});
 			}
@@ -291,12 +290,14 @@ module.exports = {
 		 * @param {Object} payload
 		 * @param {String} key
 		 * @param {any} value
+		 * @param {String?} prefix
 		 */
-		addTags(payload, key, value) {
+		addTags(payload, key, value, prefix) {
+			const name = prefix ? `${prefix}.${key}` : key;
 			if (typeof value == "object") {
-				payload.tags[key] = JSON.stringify(value);
+				Object.keys(value).forEach(k => this.addTags(payload, k, value[k], name));
 			} else {
-				payload.tags[key] = String(value);
+				payload.tags[name] = String(value);
 			}
 		},
 
