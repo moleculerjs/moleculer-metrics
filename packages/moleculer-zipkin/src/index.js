@@ -253,7 +253,7 @@ module.exports = {
 		 */
 		send(payloads) {
 			if (this.settings.baseURL) {
-				axios.post(`${this.settings.baseURL}/api/${this.settings.version}/spans`, payloads)
+				this.axios.post(`/api/${this.settings.version}/spans`, payloads)
 					.then(() => this.logger.debug(`${payloads.length} span(s) sent.`))
 					.catch(err => {
 						const message = err.response ? err.response.data : err.message;
@@ -329,6 +329,15 @@ module.exports = {
 		}
 
 		this.queue = [];
+
+		this.axios = axios.create({
+			baseURL: this.settings.baseURL,
+			headers: {
+				post: {
+					"Content-Type": "application/json"
+				}
+			}
+		});
 	},
 
 	/**
