@@ -197,7 +197,9 @@ describe("Test v1 payload creating", () => {
 
 		expect(payload).toEqual({
 			binaryAnnotations: [
-				{ key: "first", value: "{\"a\":5,\"b\":{\"c\":\"John\",\"d\":true}}" }
+				{ key: "first.a", value: "5"},
+				{ key: "first.b.c", value: "John"},
+				{ key: "first.b.d", value: "true"}
 			]
 		});
 	});
@@ -208,7 +210,8 @@ describe("Test v1 payload creating", () => {
 
 		expect(payload).toEqual({
 			binaryAnnotations: [
-				{ key: "first", value: "[\"John\",\"Jane\"]" }
+				{ key: "first.0", value: "John"},
+				{ key: "first.1", value: "Jane"}
 			]
 		});
 	});
@@ -279,12 +282,12 @@ describe("Test v1 payload creating", () => {
 					"value": ""
 				},
 				{
-					"key": "params",
-					"value": "{\"postID\":3}"
+					"key": "params.postID",
+					"value": "3"
 				},
 				{
-					"key": "meta",
-					"value": "{\"user\":{\"name\":\"John\"}}"
+					"key": "meta.user.name",
+					"value": "John"
 				}
 			]
 		});
@@ -369,8 +372,8 @@ describe("Test v1 payload creating", () => {
 					"value": ""
 				},
 				{
-					"key": "meta",
-					"value": "{\"user\":{\"name\":\"John\"}}"
+					"key": "meta.user.name",
+					"value": "John"
 				},
 				{
 					"key": "error",
@@ -436,7 +439,9 @@ describe("Test v2 payload creating", () => {
 
 		expect(payload).toEqual({
 			tags: {
-				first: "{\"a\":5,\"b\":{\"c\":\"John\",\"d\":true}}"
+				"first.a": "5",
+				"first.b.c": "John",
+				"first.b.d": "true"
 			}
 		});
 	});
@@ -447,7 +452,8 @@ describe("Test v2 payload creating", () => {
 
 		expect(payload).toEqual({
 			tags: {
-				first: "[\"John\",\"Jane\"]"
+				"first.0": "John",
+				"first.1": "Jane"
 			}
 		});
 	});
@@ -506,8 +512,8 @@ describe("Test v2 payload creating", () => {
 				"callerNodeID": "",
 				"level": "2",
 				"nodeID": "node-100",
-				"params": "{\"postID\":3}",
-				"meta": "{\"user\":{\"name\":\"John\"}}",
+				"params.postID": "3",
+				"meta.user.name": "John",
 				"remoteCall": "false"
 			},
 			"timestamp": 1520505261078000,
@@ -582,7 +588,7 @@ describe("Test v2 payload creating", () => {
 				"callerNodeID": "",
 				"level": "2",
 				"nodeID": "node-100",
-				"meta": "{\"user\":{\"name\":\"John\"}}",
+				"meta.user.name": "John",
 				"remoteCall": "false",
 				"error": "Something went wrong!",
 				"error.code": "401",
