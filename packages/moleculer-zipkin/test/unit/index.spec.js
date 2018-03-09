@@ -27,6 +27,7 @@ describe("Test ZipkinService started & stopped", () => {
 
 		it("should start timer", () => {
 			expect(service).toBeDefined();
+			expect(service.axios).toBeDefined();
 			expect(service.timer).toBeDefined();
 
 			return broker.stop();
@@ -70,6 +71,7 @@ describe("Test ZipkinService started & stopped", () => {
 
 		it("should not create timer", () => {
 			expect(service).toBeDefined();
+			expect(service.axios).toBeDefined();
 			expect(service.timer).toBeUndefined();
 		});
 
@@ -690,14 +692,14 @@ describe("Test sending & queueing", () => {
 		afterEach(() => broker.stop());
 
 		it("should call axios.post with spans", () => {
-			axios.post = jest.fn(() => Promise.resolve());
+			service.axios.post = jest.fn(() => Promise.resolve());
 
 			const payloads = [{ a: 5 }, { b: "John" }];
 
 			service.send(payloads);
 
-			expect(axios.post).toHaveBeenCalledTimes(1);
-			expect(axios.post).toHaveBeenCalledWith("http://zipkin-server:9876/api/v2/spans", payloads);
+			expect(service.axios.post).toHaveBeenCalledTimes(1);
+			expect(service.axios.post).toHaveBeenCalledWith("/api/v2/spans", payloads);
 		});
 	});
 

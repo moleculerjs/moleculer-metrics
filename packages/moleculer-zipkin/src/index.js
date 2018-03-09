@@ -256,7 +256,9 @@ module.exports = {
 				this.axios.post(`/api/${this.settings.version}/spans`, payloads)
 					.then(() => this.logger.debug(`${payloads.length} span(s) sent.`))
 					.catch(err => {
+						/* istanbul ignore next */
 						const message = err.response ? err.response.data : err.message;
+						/* istanbul ignore next */
 						this.logger.debug("Span sending error!", message, payloads);
 					});
 			}

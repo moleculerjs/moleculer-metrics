@@ -11,17 +11,5 @@ describe("Test MyService", () => {
 		expect(service).toBeDefined();
 	});
 
-	it("should return with 'Hello Anonymous'", () => {
-		return broker.call("jaeger.test").then(res => {
-			expect(res).toBe("Hello Anonymous");
-		});
-	});
-
-	it("should return with 'Hello John'", () => {
-		return broker.call("jaeger.test", { name: "John" }).then(res => {
-			expect(res).toBe("Hello John");
-		});
-	});
-
 });
 
