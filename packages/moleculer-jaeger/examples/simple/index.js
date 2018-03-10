@@ -19,6 +19,7 @@ const broker = new ServiceBroker({
 broker.createService({
 	mixins: [JaegerService],
 	settings: {
+		host: "192.168.0.181"
 	}
 });
 

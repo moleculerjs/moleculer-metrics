@@ -6,9 +6,9 @@
 
 "use strict";
 
+const _ 			= require("lodash");
 const Jaeger 		= require("jaeger-client");
 const UDPSender 	= require("jaeger-client/dist/src/reporters/udp_sender").default;
-//const Opentracing 	= require("opentracing");
 const Int64 		= require("node-int64");
 
 /**
@@ -32,6 +32,14 @@ module.exports = {
 	 * Default settings
 	 */
 	settings: {
+		host: "127.0.0.1",
+		port: 6832,
+		sampler: {
+			type: "const",
+			options: {
+				decision: 1
+			}
+		}
 	},
 
 	/**
@@ -39,7 +47,6 @@ module.exports = {
 	 */
 	events: {
 		"metrics.trace.span.finish"(metric) {
-			this.logger.warn("ID: ", metric.id, " Req:", metric.requestID);
 			this.makePayload(metric);
 		}
 	},
@@ -83,7 +90,7 @@ module.exports = {
 		 */
 		makePayload(metric) {
 			const serviceName = this.getServiceName(metric);
-			const tracer = this.getTracer("moleculer");
+			const tracer = this.getTracer(serviceName);
 
 			let parentCtx;
 			if (metric.parent) {
@@ -168,16 +175,51 @@ module.exports = {
 			return null;
 		},
 
+		/**
+		 * Get sampler instance for Tracer
+		 *
+		 */
+		getSampler(serviceName) {
+			if (_.isFunction(this.settings.sampler))
+				return this.settings.sampler;
+
+			if (this.settings.sampler.type == "ratelimiting")
+				return new Jaeger.RateLimitingSampler(this.settings.sampler.options.maxTracesPerSecond, this.settings.sampler.options.initBalance);
+
+			if (this.settings.sampler.type == "probabilistic")
+				return new Jaeger.ProbabilisticSampler(this.settings.sampler.options.samplingRate);
+
+			if (this.settings.sampler.type == "GuaranteedThroughput")
+				return new Jaeger.GuaranteedThroughputSampler(this.settings.sampler.options.lowerBound, this.settings.sampler.options.samplingRate);
+
+			if (this.settings.sampler.type == "remote")
+				return new Jaeger.RemoteControlledSampler(serviceName, this.settings.sampler.options);
+
+			return new Jaeger.ConstSampler(this.settings.sampler.options.decision != null ? this.settings.sampler.options.decision : 1);
+		},
+
+		/**
+		 * Get reporter instance for Tracer
+		 *
+		 */
+		getReporter() {
+			return new Jaeger.RemoteReporter(new UDPSender({host: this.settings.host, port: this.settings.port }));
+		},
+
+		/**
+		 * Get a tracer instance by service name
+		 *
+		 * @param {any} serviceName
+		 * @returns {Jaeger.Tracer}
+		 */
 		getTracer(serviceName) {
 			if (this.tracers[serviceName])
 				return this.tracers[serviceName];
 
-			const tracer = new Jaeger.Tracer(
-				serviceName,
-				this.reporter,
-				this.sampler,
-				{ logger: this.logger }
-			);
+			const sampler = this.getSampler();
+			const reporter = this.getReporter();
+
+			const tracer = new Jaeger.Tracer(serviceName, reporter, sampler/*, { logger: this.logger }*/);
 			this.tracers[serviceName] = tracer;
 
 			return tracer;
@@ -195,8 +237,7 @@ module.exports = {
 	 * Service started lifecycle event handler
 	 */
 	started() {
-		this.sampler = new Jaeger.ConstSampler(1);
-		this.reporter = new Jaeger.RemoteReporter(new UDPSender({host: "192.168.0.181", port: "6832", logger: this.logger }));
+
 	},
 
 	/**
