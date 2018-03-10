@@ -5,7 +5,7 @@ const { MoleculerError } 	= require("moleculer").Errors;
 const JaegerService 		= require("../../index");
 const _ 					= require("lodash");
 
-const THROW_ERR = false;
+const THROW_ERR = true;
 
 // Create broker
 const broker = new ServiceBroker({

@@ -145,6 +145,12 @@ module.exports = {
 				this.addBinaryAnnotation(payload, "error.type", metric.error.type);
 				this.addBinaryAnnotation(payload, "error.code", metric.error.code);
 
+				if (metric.error.data)
+					this.addBinaryAnnotation(payload, "error.data", metric.error.data);
+
+				if (metric.error.stack)
+					this.addBinaryAnnotation(payload, "error.stack", metric.error.stack.toString());
+
 				payload.annotations.push({
 					value: "error",
 					endpoint: { serviceName: serviceName, ipv4: "", port: 0 },
@@ -210,6 +216,13 @@ module.exports = {
 				this.addTags(payload, "error", metric.error.message);
 				this.addTags(payload, "error.type", metric.error.type);
 				this.addTags(payload, "error.code", metric.error.code);
+
+				if (metric.error.data)
+					this.addTags(payload, "error.data", metric.error.data);
+
+				if (metric.error.stack)
+					this.addTags(payload, "error.stack", metric.error.stack.toString());
+
 
 				payload.annotations.push({
 					value: "error",

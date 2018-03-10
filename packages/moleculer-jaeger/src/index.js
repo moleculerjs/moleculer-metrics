@@ -32,14 +32,23 @@ module.exports = {
 	 * Default settings
 	 */
 	settings: {
+		// UDP Sender host option
 		host: "127.0.0.1",
+		// UDP Sender port option
 		port: 6832,
+
+		// Sampler
 		sampler: {
 			type: "const",
+
+			// Sampler options
 			options: {
 				decision: 1
 			}
-		}
+		},
+
+		// Tracer options
+		options: {}
 	},
 
 	/**
@@ -140,6 +149,12 @@ module.exports = {
 				this.addTags(span, "error.message", metric.error.message);
 				this.addTags(span, "error.type", metric.error.type);
 				this.addTags(span, "error.code", metric.error.code);
+
+				if (metric.error.data)
+					this.addTags(span, "error.data", metric.error.data);
+
+				if (metric.error.stack)
+					this.addTags(span, "error.stack", metric.error.stack.toString());
 			}
 
 			span.finish(metric.endTime);
@@ -219,7 +234,7 @@ module.exports = {
 			const sampler = this.getSampler();
 			const reporter = this.getReporter();
 
-			const tracer = new Jaeger.Tracer(serviceName, reporter, sampler/*, { logger: this.logger }*/);
+			const tracer = new Jaeger.Tracer(serviceName, reporter, sampler, this.settings.options);
 			this.tracers[serviceName] = tracer;
 
 			return tracer;
