@@ -35,22 +35,22 @@ module.exports = {
 	 * Default settings
 	 */
 	settings: {
-		// UDP Sender host option
+		/** @type {String} UDP Sender host option. */
 		host: "127.0.0.1",
-		// UDP Sender port option
+		/** @type {Number?} UDP Sender port option. */
 		port: 6832,
 
-		// Sampler
+		/** @type {Object?} Sampler configuration. */
 		sampler: {
+			/** @type {String?} Sampler type */
 			type: "Const",
 
-			// Sampler options
+			/** @type: {Object?} Sampler specific options. */
 			options: {
-				decision: 1
 			}
 		},
 
-		// Tracer options
+		/** @type {Object?} Additional options for `Jaeger.Tracer` */
 		options: {}
 	},
 

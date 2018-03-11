@@ -33,7 +33,7 @@ module.exports = {
     mixins: [JaegerService],
     settings: {
         host: "jaeger-server",
-        port: 5775
+        port: 6832
     }
 });
 ```
@@ -47,7 +47,7 @@ module.exports = {
     mixins: [JaegerService],
     settings: {
         host: "jaeger-server",
-        port: 5775,
+        port: 6832,
         
         sampler: {
             type: "Const",
@@ -65,7 +65,7 @@ module.exports = {
     mixins: [JaegerService],
     settings: {
         host: "jaeger-server",
-        port: 5775,
+        port: 6832,
         
         sampler: {
             type: "RateLimiting",
@@ -84,7 +84,7 @@ module.exports = {
     mixins: [JaegerService],
     settings: {
         host: "jaeger-server",
-        port: 5775,
+        port: 6832,
         
         sampler: {
             type: "Probabilistic",
@@ -104,7 +104,7 @@ module.exports = {
     mixins: [JaegerService],
     settings: {
         host: "jaeger-server",
-        port: 5775,
+        port: 6832,
         
         sampler: {
             type: "GuaranteedThroughput",
@@ -123,7 +123,7 @@ module.exports = {
     mixins: [JaegerService],
     settings: {
         host: "jaeger-server",
-        port: 5775,
+        port: 6832,
         
         sampler: {
             type: "RemoteControlled",
@@ -151,6 +151,15 @@ module.exports = {
 # Settings
 
 <!-- AUTO-CONTENT-START:SETTINGS -->
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `host` | `String` | **required** | UDP Sender host option. |
+| `port` | `Number` | `null` | UDP Sender port option. |
+| `sampler` | `Object` | `null` | Sampler configuration. |
+| `sampler.type` | `String` | `null` | Sampler type |
+| `sampler.options` | any | **required** |  |
+| `options` | `Object` | `null` | Additional options for `Jaeger.Tracer` |
+
 <!-- AUTO-CONTENT-END:SETTINGS -->
 
 <!-- AUTO-CONTENT-TEMPLATE:SETTINGS
