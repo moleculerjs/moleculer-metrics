@@ -13,6 +13,7 @@
 ## Generals
 | Name | Version | Description |
 | ---- | ------- | ----------- |
+| [moleculer-jaeger](/packages/moleculer-jaeger#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-jaeger.svg)](https://www.npmjs.com/package/moleculer-jaeger) | Moleculer metrics module for Jaeger. |
 | [moleculer-zipkin](/packages/moleculer-zipkin#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-zipkin.svg)](https://www.npmjs.com/package/moleculer-zipkin) | Zipkin tracing addons. |
 <!-- AUTO-GENERATED-CONTENT:END -->
 
