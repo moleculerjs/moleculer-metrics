@@ -2,9 +2,13 @@
 
 # moleculer-jaeger [![NPM version](https://img.shields.io/npm/v/moleculer-jaeger.svg)](https://www.npmjs.com/package/moleculer-jaeger)
 
-Moleculer metrics module for Jaeger.
+Moleculer metrics module for [Jaeger](https://github.com/jaegertracing/jaeger).
+
+![Jaeger screenshot](https://user-images.githubusercontent.com/306521/37258289-cc5e1e00-2575-11e8-93df-b81a6a444188.png)
 
 # Features
+- 5 types sampler
+- UDP sender
 
 # Install
 
@@ -15,22 +19,120 @@ $ npm install moleculer-jaeger --save
 # Usage
 
 ```js
-// services/metrics.jaeger.js
-
-const JaegerService = require("moleculer-jaeger");
-
-module.exports = {
-    mixins: [JaegerService],
-    settings: {
-    }
-});
-
 // moleculer.config.js
 module.exports = {
     // ...
     metrics: true,
     // ...
 }
+
+// services/metrics.jaeger.js
+const JaegerService = require("moleculer-jaeger");
+
+module.exports = {
+    mixins: [JaegerService],
+    settings: {
+        host: "jaeger-server",
+        port: 5775
+    }
+});
+```
+
+## Sampler configurations
+More info: [http://jaeger.readthedocs.io/en/latest/client_libraries/#sampling](http://jaeger.readthedocs.io/en/latest/client_libraries/#sampling)
+
+**Setup ConstSampler (default)**
+```js
+module.exports = {
+    mixins: [JaegerService],
+    settings: {
+        host: "jaeger-server",
+        port: 5775,
+        
+        sampler: {
+            type: "Const",
+            options: {
+                decision: 1
+            }
+        }
+    }
+});
+```
+
+**Setup RateLimitingSampler**
+```js
+module.exports = {
+    mixins: [JaegerService],
+    settings: {
+        host: "jaeger-server",
+        port: 5775,
+        
+        sampler: {
+            type: "RateLimiting",
+            options: {
+                maxTracesPerSecond: 2,
+                initBalance: 5
+            }
+        }
+    }
+});
+```
+
+**Setup ProbabilisticSampler**
+```js
+module.exports = {
+    mixins: [JaegerService],
+    settings: {
+        host: "jaeger-server",
+        port: 5775,
+        
+        sampler: {
+            type: "Probabilistic",
+            options: {
+                samplingRate: 0.1 // 10%
+            }
+        }
+    }
+});
+```
+
+**Setup GuaranteedThroughputSampler**
+> // GuaranteedThroughputProbabilisticSampler is a sampler that leverages both probabilisticSampler and rateLimitingSampler. The rateLimitingSampler is used as a guaranteed lower bound sampler such that every operation is sampled at least once in a time interval defined by the lowerBound. ie a lowerBound of `1.0 / (60 * 10)` will sample an operation at least once every 10 minutes.
+
+```js
+module.exports = {
+    mixins: [JaegerService],
+    settings: {
+        host: "jaeger-server",
+        port: 5775,
+        
+        sampler: {
+            type: "GuaranteedThroughput",
+            options: {
+                lowerBound: 0.1,
+                samplingRate: 0.1
+            }
+        }
+    }
+});
+```
+
+**Setup RemoteControlledSampler**
+```js
+module.exports = {
+    mixins: [JaegerService],
+    settings: {
+        host: "jaeger-server",
+        port: 5775,
+        
+        sampler: {
+            type: "RemoteControlled",
+            options: {
+                //...
+            }
+        }
+    }
+});
 ```
 
 <!-- AUTO-CONTENT-START:USAGE -->

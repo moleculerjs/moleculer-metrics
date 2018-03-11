@@ -4,7 +4,7 @@
 
 Moleculer metrics module for [Zipkin](https://zipkin.io/).
 
-![Zipkin screenshot](https://files.gitter.im/icebob/yARl/image.png)
+![Zipkin screenshot](https://user-images.githubusercontent.com/306521/37258287-ca6f8fac-2575-11e8-80b8-446a0423895c.png)
 
 # Features
 - support `v1` & `v2` API.

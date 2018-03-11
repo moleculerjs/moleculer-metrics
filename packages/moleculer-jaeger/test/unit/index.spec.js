@@ -335,7 +335,7 @@ describe("Test getSampler method", () => {
 		expect(service.getSampler()).toBe(service.settings.sampler);
 	});
 
-	it("should return RateLimitingSamples", () => {
+	it("should return RateLimitingSampler", () => {
 		service.settings.sampler = {
 			type: "RateLimiting",
 			options: {
@@ -350,7 +350,7 @@ describe("Test getSampler method", () => {
 		expect(Jaeger.RateLimitingSampler).toHaveBeenCalledWith(123, 22);
 	});
 
-	it("should return ProbabilisticSamples", () => {
+	it("should return ProbabilisticSampler", () => {
 		service.settings.sampler = {
 			type: "Probabilistic",
 			options: {
@@ -364,7 +364,7 @@ describe("Test getSampler method", () => {
 		expect(Jaeger.ProbabilisticSampler).toHaveBeenCalledWith(123);
 	});
 
-	it("should return GuaranteedThroughputSamples", () => {
+	it("should return GuaranteedThroughputSampler", () => {
 		service.settings.sampler = {
 			type: "GuaranteedThroughput",
 			options: {
@@ -379,7 +379,7 @@ describe("Test getSampler method", () => {
 		expect(GuaranteedThroughputSampler).toHaveBeenCalledWith(22, 33);
 	});
 
-	it("should return RemoteControlledSamples", () => {
+	it("should return RemoteControlledSampler", () => {
 		service.settings.sampler = {
 			type: "RemoteControlled",
 			options: {
@@ -406,7 +406,7 @@ describe("Test getSampler method", () => {
 		Jaeger.ConstSampler.mockClear();
 
 		service.settings.sampler = {
-			type: "Consts",
+			type: "Const",
 			options: {
 				decision: 0
 			}
