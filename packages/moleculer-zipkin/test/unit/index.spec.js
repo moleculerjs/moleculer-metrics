@@ -307,10 +307,15 @@ describe("Test v1 payload creating", () => {
 			action: { name: "votes.count" },
 			parent: "60ff2991-5c67-4a1d-8022-70a95be86039",
 			nodeID: "node-100",
+			callerNodeID: "node-99",
 			error: {
 				message: "Something went wrong!",
 				code: 401,
-				type: "WRONG_THING"
+				type: "WRONG_THING",
+				data: {
+					a: 5
+				},
+				stack: "error stack"
 			}
 		};
 
@@ -369,7 +374,7 @@ describe("Test v1 payload creating", () => {
 				},
 				{
 					"key": "callerNodeID",
-					"value": ""
+					"value": "node-99"
 				},
 				{
 					"key": "meta.user.name",
@@ -386,6 +391,14 @@ describe("Test v1 payload creating", () => {
 				{
 					"key": "error.code",
 					"value": "401"
+				},
+				{
+					"key": "error.data.a",
+					"value": "5"
+				},
+				{
+					"key": "error.stack",
+					"value": "error stack"
 				}
 			],
 
@@ -535,10 +548,15 @@ describe("Test v2 payload creating", () => {
 			action: { name: "votes.count" },
 			parent: "60ff2991-5c67-4a1d-8022-70a95be86039",
 			nodeID: "node-100",
+			callerNodeID: "node-99",
 			error: {
 				message: "Something went wrong!",
 				code: 401,
-				type: "WRONG_THING"
+				type: "WRONG_THING",
+				data: {
+					a: 5
+				},
+				stack: "error stack"
 			}
 		};
 
@@ -585,14 +603,16 @@ describe("Test v2 payload creating", () => {
 			],
 
 			"tags": {
-				"callerNodeID": "",
+				"callerNodeID": "node-99",
 				"level": "2",
 				"nodeID": "node-100",
 				"meta.user.name": "John",
 				"remoteCall": "false",
 				"error": "Something went wrong!",
 				"error.code": "401",
-				"error.type": "WRONG_THING"
+				"error.type": "WRONG_THING",
+				"error.data.a": "5",
+				"error.stack": "error stack",
 			},
 			"timestamp": 1520505261078000,
 			"durationMicros": 64436

@@ -8,7 +8,10 @@
 
 const _ 			= require("lodash");
 const Jaeger 		= require("jaeger-client");
+const GuaranteedThroughputSampler = require("jaeger-client/dist/src/samplers/guaranteed_throughput_sampler").default;
+const RemoteControlledSampler = require("jaeger-client/dist/src/samplers/remote_sampler").default;
 const UDPSender 	= require("jaeger-client/dist/src/reporters/udp_sender").default;
+
 const Int64 		= require("node-int64");
 
 /**
@@ -39,7 +42,7 @@ module.exports = {
 
 		// Sampler
 		sampler: {
-			type: "const",
+			type: "Const",
 
 			// Sampler options
 			options: {
@@ -198,19 +201,19 @@ module.exports = {
 			if (_.isFunction(this.settings.sampler))
 				return this.settings.sampler;
 
-			if (this.settings.sampler.type == "ratelimiting")
+			if (this.settings.sampler.type == "RateLimiting")
 				return new Jaeger.RateLimitingSampler(this.settings.sampler.options.maxTracesPerSecond, this.settings.sampler.options.initBalance);
 
-			if (this.settings.sampler.type == "probabilistic")
+			if (this.settings.sampler.type == "Probabilistic")
 				return new Jaeger.ProbabilisticSampler(this.settings.sampler.options.samplingRate);
 
 			if (this.settings.sampler.type == "GuaranteedThroughput")
-				return new Jaeger.GuaranteedThroughputSampler(this.settings.sampler.options.lowerBound, this.settings.sampler.options.samplingRate);
+				return new GuaranteedThroughputSampler(this.settings.sampler.options.lowerBound, this.settings.sampler.options.samplingRate);
 
-			if (this.settings.sampler.type == "remote")
-				return new Jaeger.RemoteControlledSampler(serviceName, this.settings.sampler.options);
+			if (this.settings.sampler.type == "RemoteControlled")
+				return new RemoteControlledSampler(serviceName, this.settings.sampler.options);
 
-			return new Jaeger.ConstSampler(this.settings.sampler.options.decision != null ? this.settings.sampler.options.decision : 1);
+			return new Jaeger.ConstSampler(this.settings.sampler.options && this.settings.sampler.options.decision != null ? this.settings.sampler.options.decision : 1);
 		},
 
 		/**
@@ -262,5 +265,6 @@ module.exports = {
 		Object.keys(this.tracers).forEach(service => {
 			this.tracers[service].close();
 		});
+		this.tracers = {};
 	}
 };
