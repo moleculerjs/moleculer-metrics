@@ -13,7 +13,7 @@ Moleculer metrics module for [Jaeger](https://github.com/jaegertracing/jaeger).
 # Install
 
 ```bash
-$ npm install moleculer-jaeger --save
+$ npm install moleculer-jaeger
 ```
 
 # Usage
@@ -41,7 +41,7 @@ module.exports = {
 ## Sampler configurations
 More info: [http://jaeger.readthedocs.io/en/latest/client_libraries/#sampling](http://jaeger.readthedocs.io/en/latest/client_libraries/#sampling)
 
-**Setup ConstSampler (default)**
+**Setup ConstSampler (default):**
 ```js
 module.exports = {
     mixins: [JaegerService],
@@ -59,7 +59,7 @@ module.exports = {
 });
 ```
 
-**Setup RateLimitingSampler**
+**Setup RateLimitingSampler:**
 ```js
 module.exports = {
     mixins: [JaegerService],
@@ -78,7 +78,7 @@ module.exports = {
 });
 ```
 
-**Setup ProbabilisticSampler**
+**Setup ProbabilisticSampler:**
 ```js
 module.exports = {
     mixins: [JaegerService],
@@ -96,8 +96,8 @@ module.exports = {
 });
 ```
 
-**Setup GuaranteedThroughputSampler**
-> // GuaranteedThroughputProbabilisticSampler is a sampler that leverages both probabilisticSampler and rateLimitingSampler. The rateLimitingSampler is used as a guaranteed lower bound sampler such that every operation is sampled at least once in a time interval defined by the lowerBound. ie a lowerBound of `1.0 / (60 * 10)` will sample an operation at least once every 10 minutes.
+**Setup GuaranteedThroughputSampler:**
+>GuaranteedThroughputProbabilisticSampler is a sampler that leverages both probabilisticSampler and rateLimitingSampler. The rateLimitingSampler is used as a guaranteed lower bound sampler such that every operation is sampled at least once in a time interval defined by the lowerBound. ie a lowerBound of `1.0 / (60 * 10)` will sample an operation at least once every 10 minutes.
 
 ```js
 module.exports = {
@@ -117,7 +117,7 @@ module.exports = {
 });
 ```
 
-**Setup RemoteControlledSampler**
+**Setup RemoteControlledSampler:**
 ```js
 module.exports = {
     mixins: [JaegerService],
