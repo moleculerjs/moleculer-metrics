@@ -9,7 +9,7 @@
 
 # Monitoring & metrics addons for Moleculer framework
 
-<!-- AUTO-GENERATED-CONTENT:START (RENDERLIST:folder=packages&title=Generals) -->
+<!-- AUTO-GENERATED-CONTENT:START (RENDERLIST:folder=packages&title=Modules) -->
 ## Generals
 | Name | Version | Description |
 | ---- | ------- | ----------- |
