@@ -1,7 +1,7 @@
 {
   "name": "moleculer-zipkin",
   "version": "0.0.0",
-  "description": "Zipkin tracing addons.",
+  "description": "Moleculer metrics module for Zipkin.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon examples/index.js",

@@ -10,11 +10,11 @@
 # Monitoring & metrics addons for Moleculer framework
 
 <!-- AUTO-GENERATED-CONTENT:START (RENDERLIST:folder=packages&title=Modules) -->
-## Generals
+## Modules
 | Name | Version | Description |
 | ---- | ------- | ----------- |
 | [moleculer-jaeger](/packages/moleculer-jaeger#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-jaeger.svg)](https://www.npmjs.com/package/moleculer-jaeger) | Moleculer metrics module for Jaeger. |
-| [moleculer-zipkin](/packages/moleculer-zipkin#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-zipkin.svg)](https://www.npmjs.com/package/moleculer-zipkin) | Zipkin tracing addons. |
+| [moleculer-zipkin](/packages/moleculer-zipkin#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-zipkin.svg)](https://www.npmjs.com/package/moleculer-zipkin) | Moleculer metrics module for Zipkin. |
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 # Contribution
