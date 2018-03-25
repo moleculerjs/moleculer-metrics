@@ -2,7 +2,7 @@
 
 const { ServiceBroker } 	= require("moleculer");
 const { MoleculerError } 	= require("moleculer").Errors;
-const ZipkinService 		= require("../../index");
+const JaegerService 		= require("../../index");
 const _ 					= require("lodash");
 const ApiGateway			= require("moleculer-web");
 
@@ -18,13 +18,11 @@ const broker = new ServiceBroker({
 
 broker.createService(ApiGateway);
 
-// Load Zipkin service
+// Load Jaeger service
 broker.createService({
-	mixins: [ZipkinService],
+	mixins: [JaegerService],
 	settings: {
-		baseURL: process.env.ZIPKIN_URL || "http://192.168.0.181:9411",
-		//batchTime: 0,
-		//version: "v2",
+		host: "192.168.0.181"
 	}
 });
 
@@ -121,10 +119,4 @@ broker.start().then(() => {
 	broker.repl();
 
 	broker.logger.info("Open http://localhost:3000/posts/find?limit=5");
-
-	// Call action
-	broker
-		.call("posts.find", { limit: 5 }, { meta: { loggedIn: { username: "Adam" } } })
-		.then(console.log)
-		.catch(console.error);
 });
