@@ -168,8 +168,6 @@ module.exports = {
 
 		/**
 		 * Update common Moleculer metric values.
-		 *
-		 * @returns
 		 */
 		updateCommonValues() {
 			if (!this.metrics) return;
@@ -198,6 +196,7 @@ module.exports = {
 		/**
 		 * Update a metric value.
 		 *
+		 * @methods
 		 * @param {String} name
 		 * @param {String} method
 		 * @param {Object?} labels
