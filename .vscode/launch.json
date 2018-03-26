@@ -11,8 +11,8 @@
 			"program": "${workspaceRoot}\\dev",
 			"cwd": "${workspaceRoot}",
 			"args": [
-				"moleculer-jaeger",
-				"api"
+				"moleculer-prometheus",
+				"simple"
 			]
 		},
 		{

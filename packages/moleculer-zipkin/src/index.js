@@ -90,7 +90,8 @@ module.exports = {
 			if (metric.name)
 				return metric.name;
 
-			return metric.action.name;
+			if (metric.action)
+				return metric.action.name;
 		},
 
 		/**

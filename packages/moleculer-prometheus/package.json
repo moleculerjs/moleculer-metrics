@@ -47,5 +47,9 @@
   },
   "engines": {
     "node": ">= 6.x.x"
+  },
+  "dependencies": {
+    "polka": "0.3.4",
+    "prom-client": "11.0.0"
   }
 }
