@@ -11,6 +11,24 @@ const polka = require("polka");
 /**
  * Moleculer metrics module for Prometheus.
  *
+ * 		https://prometheus.io/
+ *
+ * Running Prometheus & Grafana in Docker:
+ *
+ * 		git clone https://github.com/vegasbrianc/prometheus.git
+ * 		cd prometheus
+ *
+ * 	Please note, don't forget add your endpoint to static targets in prometheus/prometheus.yml file
+ *
+ *     static_configs:
+ *       - targets: ['localhost:9090', 'moleculer-node-123:3030']
+ *
+ *  Start containers:
+ *
+ * 		docker-compose up -d
+ *
+ * Grafana dashboard: http://<docker-ip>:3000
+ *
  * @name moleculer-prometheus
  * @module Service
  */
