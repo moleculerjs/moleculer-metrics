@@ -30,6 +30,7 @@ module.exports = {
 		/** @type {Number} Timeout option for 'collectDefaultMetrics'. */
 		timeout: 10 * 1000,
 
+		/** @type {Object} Metric definitions. */
 		metrics: {
 			// Common metrics
 			"moleculer_nodes_total": 		{ type: "Gauge", help: "Moleculer nodes count" },
