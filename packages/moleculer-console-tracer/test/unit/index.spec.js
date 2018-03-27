@@ -70,7 +70,11 @@ describe("Test event listener", () => {
 
 describe("Test printRequest method", () => {
 	const broker = new ServiceBroker();
-	const service = broker.createService(TracerService);
+	const service = broker.createService(TracerService, {
+		settings: {
+			colors: false
+		}
+	});
 
 	const output = [];
 	service.logger.info = jest.fn((...args) => output.push(args.join(" ")));
@@ -130,12 +134,12 @@ describe("Test printRequest method", () => {
 
 		expect(output).toEqual([
 			"┌──────────────────────────────────────────────────────────────────────────────┐",
-			"│ ID: 1                                                                        │",
+			"│ ID: 1                                                      Depth: 3 Total: 4 │",
 			"├──────────────────────────────────────────────────────────────────────────────┤",
-			"│ posts.find                25.40ms [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■] │",
-			"│   posts.votes             11.80ms [........■■■■■■■■■■■■■■■■■■..............] │",
-			"│     users.get            » 8.10ms [.............■■■■■■■■■■■■...............] │",
-			"│   posts.likes            * 2.50ms [................■■■■....................] │",
+			"│ posts.find                   25ms [■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■] │",
+			"│   posts.votes                11ms [.......■■■■■■■■■■■■■■■■■■■..............] │",
+			"│     users.get »               8ms [............■■■■■■■■■■■■■...............] │",
+			"│   posts.likes *               2ms [...............■■■■.....................] │",
 			"└──────────────────────────────────────────────────────────────────────────────┘"
 		]);
 	});
