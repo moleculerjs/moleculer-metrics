@@ -86,10 +86,10 @@ broker.broadcast("metrics.update", {
 
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
-| `port` | `Number` | **required** | Exposed HTTP port. |
-| `collectDefaultMetrics` | `Boolean` | **required** | Enable to collect default metrics. |
-| `timeout` | `Number` | **required** | Timeout option for 'collectDefaultMetrics'. |
-| `metrics` | `Object` | **required** | Metric definitions. |
+| `port` | `Number` | `3030` | Exposed HTTP port. |
+| `collectDefaultMetrics` | `Boolean` | `true` | Enable to collect default metrics. |
+| `timeout` | `Number` | `10000` | Timeout option for 'collectDefaultMetrics' in milliseconds. |
+| `metrics` | `Object` | `{}` | Metric definitions. |
 
 # Default Moleculer metrics
 
