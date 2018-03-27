@@ -7,6 +7,8 @@ Simple tracer service to print metric traces to the console.
 
 ![Console Tracing screenshot](https://user-images.githubusercontent.com/306521/37969145-560ad38a-31d0-11e8-87f5-7a531181926b.png)
 
+_Don't execute multiple instances because it is not a centralized tracing solution._
+
 # Features
 
 # Install
