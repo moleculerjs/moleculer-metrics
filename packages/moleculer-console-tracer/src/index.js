@@ -161,16 +161,16 @@ module.exports = {
 		getTraceInfo(main) {
 			let depth = 0;
 			let total = 0;
-			let check = span => {
+			let check = (span, level) => {
 				total++;
-				if (span.level > depth)
-					depth = span.level;
+				if (level > depth)
+					depth = level;
 
 				if (span.spans.length > 0)
-					span.spans.forEach(spanID => check(this.requests[spanID]));
+					span.spans.forEach(spanID => check(this.requests[spanID], level + 1));
 			};
 
-			check(main);
+			check(main, 1);
 
 			return { depth, total };
 		},
@@ -181,13 +181,13 @@ module.exports = {
 		 * @param {Object} span
 		 * @param {Object} main
 		 */
-		printSpanTime(span, main) {
+		printSpanTime(span, main, level) {
 			const margin = 2 * 2;
 			const w = (this.settings.width || 80) - margin;
 			const gw = this.settings.gaugeWidth || 40;
 
 			const time = span.duration == null ? "?" : humanize(span.duration);
-			const caption = r("  ", span.level - 1) + this.getCaption(span);
+			const caption = r("  ", level - 1) + this.getCaption(span);
 			const info = this.drawAlignedTexts(caption, " " + time, w - gw - 3);
 
 			const startTime = span.startTime || main.startTime;
@@ -207,7 +207,7 @@ module.exports = {
 			this.logger.info(this.drawLine(c(info + " " + this.drawGauge(gstart, gstop))));
 
 			if (span.spans.length > 0)
-				span.spans.forEach(spanID => this.printSpanTime(this.requests[spanID], main));
+				span.spans.forEach(spanID => this.printSpanTime(this.requests[spanID], main, level + 1));
 		},
 
 		/**
@@ -231,7 +231,7 @@ module.exports = {
 
 			this.logger.info(this.drawHorizonalLine());
 
-			this.printSpanTime(main, main);
+			this.printSpanTime(main, main, 1);
 
 			this.logger.info(this.drawTableBottom());
 		},
