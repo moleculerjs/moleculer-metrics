@@ -1,6 +1,6 @@
 {
   "name": "moleculer-console-tracer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple tracer service to print metric traces to the console.",
   "main": "index.js",
   "scripts": {
