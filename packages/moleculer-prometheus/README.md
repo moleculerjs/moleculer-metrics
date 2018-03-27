@@ -91,6 +91,23 @@ broker.broadcast("metrics.update", {
 | `timeout` | `Number` | **required** | Timeout option for 'collectDefaultMetrics'. |
 | `metrics` | `Object` | **required** | Metric definitions. |
 
+# Default Moleculer metrics
+
+| Name | Type | Labels | Description |
+| ---- | ---- | ------ | ----------- |
+| `moleculer_nodes_total` | Gauge | - | Moleculer nodes count |
+| `moleculer_services_total` | Gauge | - | Moleculer services count |
+| `moleculer_actions_total` | Gauge | - | Moleculer actions count |
+| `moleculer_events_total` | Gauge | - | Moleculer event subscription count |
+| `moleculer_nodes` | Gauge | `nodeID`, `type`, `version`, `langVersion` | Moleculer node list |
+| `moleculer_action_endpoints_total` | Gauge | `action` | Moleculer action endpoints |
+| `moleculer_service_endpoints_total` | Gauge | `service`, `version` | Moleculer service endpoints |
+| `moleculer_event_endpoints_total` | Gauge | `event`, `group` | Moleculer event endpoints |
+| `moleculer_req_total` | Counter | `action`, `service`, `nodeID` | Moleculer request count |
+| `moleculer_req_errors_total` | Counter | `action`, `service`, `nodeID`, `errorCode`, `errorName`, `errorType` | Moleculer request error count |
+| `moleculer_req_duration_ms` | Histogram | `action`, `service`, `nodeID` | Moleculer request durations |
+
+
 # Methods
 
 <!-- AUTO-CONTENT-START:METHODS -->
