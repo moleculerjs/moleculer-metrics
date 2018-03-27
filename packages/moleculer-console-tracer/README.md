@@ -5,7 +5,7 @@
 Simple tracer service to print metric traces to the console. 
 _Do not use it in production. Just for prototyping and testing._
 
-![Console Tracing screenshot](https://user-images.githubusercontent.com/306521/37964886-5866d096-31c3-11e8-867a-11ac89462318.png)
+![Console Tracing screenshot](https://user-images.githubusercontent.com/306521/37969145-560ad38a-31d0-11e8-87f5-7a531181926b.png)
 
 # Features
 
@@ -56,8 +56,8 @@ module.exports = {
 <!-- AUTO-CONTENT-START:SETTINGS -->
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
-| `width` | `Number` | 80 | Table width. |
-| `gaugeWidth` | `Number` | 40 | Gauge width. |
+| `width` | `Number` | `80` | Table width. |
+| `gaugeWidth` | `Number` | `40` | Gauge width. |
 
 <!-- AUTO-CONTENT-END:SETTINGS -->
 

@@ -14,7 +14,8 @@ const broker = new ServiceBroker({
 	logFormatter: "simple",
 	logLevel: "info",
 	metrics: true,
-	sampleCount: 1
+	sampleCount: 1,
+	cacher: true
 });
 
 broker.createService(ApiGateway);
@@ -23,8 +24,8 @@ broker.createService(ApiGateway);
 broker.createService({
 	mixins: [TracingService],
 	settings: {
-		width: 100,
-		gaugeWidth: 50
+		//width: 50,
+		//gaugeWidth: 25
 	}
 });
 
@@ -102,6 +103,7 @@ broker.createService({
 	name: "friends",
 	actions: {
 		count: {
+			cache: true,
 			metrics: {
 				params: ["userID"],
 				meta: false,

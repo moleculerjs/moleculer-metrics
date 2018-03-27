@@ -35,7 +35,7 @@
     "lolex": "2.3.2",
     "moleculer": "0.12.1",
     "moleculer-docgen": "0.2.1",
-    "moleculer-web": "0.6.4",
+    "moleculer-web": "0.7.0-beta3",
     "nodemon": "1.17.1",
     "npm-check": "5.5.2"
   },
@@ -50,6 +50,9 @@
     "node": ">= 6.x.x"
   },
   "dependencies": {
-    "lodash": "4.17.5"
+    "chalk": "2.3.2",
+    "lodash": "4.17.5",
+    "slice-ansi": "1.0.0",
+    "tiny-human-time": "1.2.0"
   }
 }

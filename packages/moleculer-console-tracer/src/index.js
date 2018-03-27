@@ -6,7 +6,11 @@
 
 "use strict";
 
-const _ = require("lodash");
+const _ 			= require("lodash");
+const r 			= _.repeat;
+const chalk 		= require("chalk");
+const humanize 		= require("tiny-human-time").short;
+const slice 		= require("slice-ansi");
 
 /**
  * Simple tracer service to print metric traces to the console.
@@ -26,7 +30,10 @@ module.exports = {
 		width: 80,
 
 		/** @type {Number} Gauge width. */
-		gaugeWidth: 40
+		gaugeWidth: 40,
+
+		/** @type {Boolean} Enable colors. */
+		colors: true
 	},
 
 	/**
@@ -61,82 +68,173 @@ module.exports = {
 	 * Methods
 	 */
 	methods: {
+
+		/**
+		 * Get span name from metric event. By default it returns the action name
+		 *
+		 * @param {Object} metric
+		 * @returns  {String}
+		 */
+		getSpanName(metric) {
+			if (metric.name)
+				return metric.name;
+
+			if (metric.action)
+				return metric.action.name;
+		},
+
+		drawTableTop() {
+			return chalk.grey("┌" + r("─", this.settings.width - 2) + "┐");
+		},
+
+		drawHorizonalLine() {
+			return chalk.grey("├" + r("─", this.settings.width - 2) + "┤");
+		},
+
+		drawLine(text) {
+			return chalk.grey("│ ") + text + chalk.grey(" │");
+		},
+
+		drawTableBottom() {
+			return chalk.grey("└" + r("─", this.settings.width - 2) + "┘");
+		},
+
+		drawAlignedTexts(leftStr, rightStr, width) {
+			const ll = leftStr.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, "").length;
+			const rl = rightStr.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, "").length;
+
+			const space = width - rl;
+
+			let left;
+			if (ll <= space)
+				left = leftStr + r(" ", space - ll);
+			else {
+				left = slice(leftStr, 0, Math.max(space - 3, 0));
+				left += r(".", Math.min(3, space));
+			}
+
+			return left + rightStr;
+		},
+
+		drawGauge(gstart, gstop) {
+			const gw = this.settings.gaugeWidth;
+			const p1 = Math.floor(gw * gstart / 100);
+			const p2 = Math.max(Math.floor(gw * gstop / 100) - p1, 1);
+			const p3 = Math.max(gw - (p1 + p2), 0);
+
+			return [
+				chalk.grey("["),
+				chalk.grey(r(".", p1)),
+				r("■", p2),
+				chalk.grey(r(".", p3)),
+				chalk.grey("]")
+			].join("");
+		},
+
+		getCaption(span) {
+			let caption = this.getSpanName(span);
+
+			if (span.fromCache)
+				caption += " *";
+			if (span.remoteCall)
+				caption += " »";
+			if (span.error)
+				caption += " ×";
+
+			return caption;
+		},
+
+		getColor(span) {
+			let c = chalk.bold;
+			if (span.fromCache)
+				c = chalk.yellow;
+			if (span.remoteCall)
+				c = chalk.cyan;
+			if (span.duration == null)
+				c = chalk.grey;
+			if (span.error)
+				c = chalk.red.bold;
+
+			return c;
+		},
+
+		getTraceInfo(main) {
+			let depth = 0;
+			let total = 0;
+			let check = span => {
+				total++;
+				if (span.level > depth)
+					depth = span.level;
+
+				if (span.spans.length > 0)
+					span.spans.forEach(spanID => check(this.requests[spanID]));
+			};
+
+			check(main);
+
+			return { depth, total };
+		},
+
+		/**
+		 * Print a span row
+		 *
+		 * @param {Object} span
+		 * @param {Object} main
+		 */
+		printSpanTime(span, main) {
+			const margin = 2 * 2;
+			const w = (this.settings.width || 80) - margin;
+			const gw = this.settings.gaugeWidth || 40;
+
+			const time = span.duration == null ? "?" : humanize(span.duration);
+			const caption = r("  ", span.level - 1) + this.getCaption(span);
+			const info = this.drawAlignedTexts(caption, " " + time, w - gw - 3);
+
+			const startTime = span.startTime || main.startTime;
+			const endTime = span.endTime || main.endTime;
+
+			let gstart = (startTime - main.startTime) / (main.endTime - main.startTime) * 100;
+			let gstop = (endTime - main.startTime) / (main.endTime - main.startTime) * 100;
+
+			if (_.isNaN(gstart) && _.isNaN(gstop)) {
+				gstart = 0;
+				gstop = 100;
+			}
+			if (gstop > 100)
+				gstop = 100;
+
+			const c = this.getColor(span);
+			this.logger.info(this.drawLine(c(info + " " + this.drawGauge(gstart, gstop))));
+
+			if (span.spans.length > 0)
+				span.spans.forEach(spanID => this.printSpanTime(this.requests[spanID], main));
+		},
+
 		/**
 		 * Print request traces
 		 *
 		 * @param {String} id
 		 */
 		printRequest(id) {
-			let main = this.requests[id];
+			const main = this.requests[id];
+			const margin = 2 * 2;
+			const w = (this.settings.width || 80) - margin;
 
-			let w = this.settings.width || 80;
-			let r = _.repeat;
-			let gw = this.settings.gaugeWidth || 40;
-			let maxTitle = w - 2 - 2 - gw - 2 - 1;
+			this.logger.info(this.drawTableTop());
 
-			this.logger.info(["┌", r("─", w-2), "┐"].join(""));
+			const { total, depth } = this.getTraceInfo(main);
 
+			const headerLeft = chalk.grey("ID: ") + chalk.bold(id);
+			const headerRight = chalk.grey("Depth: ") + chalk.bold(depth) + " " + chalk.grey("Total: ") + chalk.bold(total);
+			const line = this.drawAlignedTexts(headerLeft, " " + headerRight, w);
+			this.logger.info(this.drawLine(line));
 
-			this.logger.info(["│ ID: ", id, r(" ", w - id.length - 7), "│"].join(""));
-			// TODO: add "Depth: 3, Spans: 13"
-			this.logger.info(["├", r("─", w-2), "┤"].join(""));
+			this.logger.info(this.drawHorizonalLine());
 
-			let printSpanTime = (span) => {
-				let time = span.duration == null ? "?" : span.duration.toFixed(2);
+			this.printSpanTime(main, main);
 
-				let maxActionName = maxTitle - (span.level-1) * 2 - time.length - 3 - (span.fromCache ? 2 : 0) - (span.remoteCall ? 2 : 0) - (span.error ? 2 : 0);
-				let actionName = span.action ? span.action.name : "";
-				if (actionName.length > maxActionName)
-					actionName = _.truncate(span.action.name, { length: maxActionName });
-
-				let strAction = [
-					r("  ", span.level - 1),
-					actionName,
-					r(" ", maxActionName - actionName.length + 1),
-					span.fromCache ? "* " : "",
-					span.remoteCall ? "» " : "",
-					span.error ? "× " : "",
-					time,
-					"ms "
-				].join("");
-
-				if (span.startTime == null || span.endTime == null) {
-					this.logger.info("│ " + strAction + "! Missing timestamps!" + " │");
-					return;
-				}
-
-				let gstart = (span.startTime - main.startTime) / (main.endTime - main.startTime) * 100;
-				let gstop = (span.endTime - main.startTime) / (main.endTime - main.startTime) * 100;
-
-				if (_.isNaN(gstart) && _.isNaN(gstop)) {
-					gstart = 0;
-					gstop = 100;
-				}
-				if (gstop > 100)
-					gstop = 100;
-
-				let p1 = Math.round(gw * gstart / 100);
-				let p2 = Math.round(gw * gstop / 100) - p1;
-				let p3 = Math.max(gw - (p1 + p2), 0);
-
-				let gauge = [
-					"[",
-					r(".", p1),
-					r("■", p2),
-					r(".", p3),
-					"]"
-				].join("");
-
-				this.logger.info("│ " + strAction + gauge + " │");
-
-				if (span.spans.length > 0)
-					span.spans.forEach(spanID => printSpanTime(this.requests[spanID]));
-			};
-
-			printSpanTime(main);
-
-			this.logger.info(["└", r("─", w-2), "┘"].join(""));
-		}
+			this.logger.info(this.drawTableBottom());
+		},
 	},
 
 	/**
@@ -144,5 +242,7 @@ module.exports = {
 	 */
 	created() {
 		this.requests = {};
+
+		chalk.enabled = this.settings.colors;
 	}
 };
