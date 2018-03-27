@@ -3,7 +3,7 @@
 # moleculer-console-tracer [![NPM version](https://img.shields.io/npm/v/moleculer-console-tracer.svg)](https://www.npmjs.com/package/moleculer-console-tracer)
 
 Simple tracer service to print metric traces to the console. 
-_Do not use it in production. Just for prototyping and testing._
+***Do not use it in production. Just for prototyping and testing.***
 
 ![Console Tracing screenshot](https://user-images.githubusercontent.com/306521/37969145-560ad38a-31d0-11e8-87f5-7a531181926b.png)
 
@@ -18,7 +18,7 @@ $ npm install moleculer-console-tracer
 # Usage
 
 ```js
-// services/metrics.zipkin.js
+// services/metrics.tracer.js
 
 const Tracer = require("moleculer-console-tracer");
 
