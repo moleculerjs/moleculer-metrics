@@ -13,7 +13,9 @@
 ## Modules
 | Name | Version | Description |
 | ---- | ------- | ----------- |
+| [moleculer-console-tracer](/packages/moleculer-console-tracer#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-console-tracer.svg)](https://www.npmjs.com/package/moleculer-console-tracer) | Simple tracer service to print metric traces to the console. |
 | [moleculer-jaeger](/packages/moleculer-jaeger#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-jaeger.svg)](https://www.npmjs.com/package/moleculer-jaeger) | Moleculer metrics module for Jaeger. |
+| [moleculer-prometheus](/packages/moleculer-prometheus#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-prometheus.svg)](https://www.npmjs.com/package/moleculer-prometheus) | Moleculer metrics module for Prometheus. |
 | [moleculer-zipkin](/packages/moleculer-zipkin#readme) | [![NPM version](https://img.shields.io/npm/v/moleculer-zipkin.svg)](https://www.npmjs.com/package/moleculer-zipkin) | Moleculer metrics module for Zipkin. |
 <!-- AUTO-GENERATED-CONTENT:END -->
 
