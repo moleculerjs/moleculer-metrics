@@ -151,13 +151,14 @@ module.exports = {
 		/**
 		 * Create Prometheus metrics.
 		 *
+		 * @param {Object} metricsDefs
 		 */
-		createMetrics() {
+		createMetrics(metricsDefs) {
 			this.metrics = {};
-			if (!this.settings.metrics) return;
+			if (!metricsDefs) return;
 
-			Object.keys(this.settings.metrics).forEach(name => {
-				const def = this.settings.metrics[name];
+			Object.keys(metricsDefs).forEach(name => {
+				const def = metricsDefs[name];
 
 				if (def)
 					this.metrics[name] = new this.client[def.type](Object.assign({ name }, def));
@@ -172,7 +173,7 @@ module.exports = {
 		updateCommonValues() {
 			if (!this.metrics) return;
 
-			this.broker.mcall({
+			return this.broker.mcall({
 				nodes: { action: "$node.list" },
 				services: { action: "$node.services", params: { withActions: false, skipInternal: true } },
 				actions: { action: "$node.actions", params: { withEndpoints: true, skipInternal: true } },
@@ -230,7 +231,7 @@ module.exports = {
 			this.timer = this.client.collectDefaultMetrics({ timeout: this.settings.timeout });
 		}
 
-		this.createMetrics();
+		this.createMetrics(this.settings.metrics);
 
 		this.server.get("/metrics", (req, res) => {
 			res.setHeader("Content-Type", this.client.contentType);
@@ -246,10 +247,11 @@ module.exports = {
 	 * Service stopped lifecycle event handler
 	 */
 	stopped() {
-		if (this.timer)
+		if (this.timer) {
 			clearInterval(this.timer);
+			this.timer = null;
+		}
 
-		// TODO: wait for https://github.com/lukeed/polka/issues/39
 		if (this.server)
 			this.server.server.close();
 	}
