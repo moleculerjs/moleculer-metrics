@@ -72,8 +72,11 @@ module.exports = {
 		 * @returns {String}
 		 */
 		getServiceName(metric) {
-			if (metric.service)
+			if (metric.service) {
+				if (metric.service.name)
+					return metric.service.name;
 				return metric.service;
+			}
 
 			let parts = metric.action.name.split(".");
 			parts.pop();
@@ -126,10 +129,10 @@ module.exports = {
 
 				// Binary annotations
 				binaryAnnotations: [
-					{ key: "nodeID", 		value: metric.nodeID },
-					{ key: "level", 		value: metric.level.toString() },
-					{ key: "remoteCall", 	value: metric.remoteCall.toString() },
-					{ key: "callerNodeID", 	value: metric.callerNodeID ? metric.callerNodeID : "" }
+					{ key: "nodeID", value: metric.nodeID },
+					{ key: "level", value: metric.level.toString() },
+					{ key: "remoteCall", value: metric.remoteCall.toString() },
+					{ key: "callerNodeID", value: metric.callerNodeID ? metric.callerNodeID : "" }
 				],
 
 				timestamp: this.convertTime(metric.endTime)
@@ -201,7 +204,7 @@ module.exports = {
 				},
 
 				timestamp: this.convertTime(metric.startTime),
-				durationMicros: Math.round(metric.duration * 1000),
+				duration: Math.round(metric.duration * 1000),
 
 				debug: this.settings.payloadOptions.debug,
 				shared: this.settings.payloadOptions.shared
@@ -322,7 +325,7 @@ module.exports = {
 		 * @returns {String}
 		 */
 		convertID(id) {
-			return id ? id.replace(/-/g, "").substring(0,16) : null;
+			return id ? id.replace(/-/g, "").substring(0, 16) : null;
 		},
 
 		/**

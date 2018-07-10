@@ -6,13 +6,13 @@
 
 "use strict";
 
-const _ 			= require("lodash");
-const Jaeger 		= require("jaeger-client");
+const _ = require("lodash");
+const Jaeger = require("jaeger-client");
 const GuaranteedThroughputSampler = require("jaeger-client/dist/src/samplers/guaranteed_throughput_sampler").default;
 const RemoteControlledSampler = require("jaeger-client/dist/src/samplers/remote_sampler").default;
-const UDPSender 	= require("jaeger-client/dist/src/reporters/udp_sender").default;
+const UDPSender = require("jaeger-client/dist/src/reporters/udp_sender").default;
 
-const Int64 		= require("node-int64");
+const Int64 = require("node-int64");
 
 /**
  * Moleculer metrics module for Jaeger.
@@ -74,8 +74,11 @@ module.exports = {
 		 * @returns {String}
 		 */
 		getServiceName(metric) {
-			if (metric.service)
+			if (metric.service) {
+				if (metric.service.name)
+					return metric.service.name;
 				return metric.service;
+			}
 
 			let parts = metric.action.name.split(".");
 			parts.pop();
@@ -189,7 +192,7 @@ module.exports = {
 		 */
 		convertID(id) {
 			if (id) {
-				return new Int64(id.replace(/-/g, "").substring(0,16)).toBuffer();
+				return new Int64(id.replace(/-/g, "").substring(0, 16)).toBuffer();
 			}
 			return null;
 		},
@@ -222,7 +225,7 @@ module.exports = {
 		 *
 		 */
 		getReporter() {
-			return new Jaeger.RemoteReporter(new UDPSender({host: this.settings.host, port: this.settings.port }));
+			return new Jaeger.RemoteReporter(new UDPSender({ host: this.settings.host, port: this.settings.port }));
 		},
 
 		/**
