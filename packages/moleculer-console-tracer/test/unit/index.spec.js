@@ -4,7 +4,7 @@ const { ServiceBroker } = require("moleculer");
 const TracerService = require("../../src");
 
 describe("Test TracerService constructor", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(TracerService);
 
 	it("should be created", () => {
@@ -15,7 +15,7 @@ describe("Test TracerService constructor", () => {
 });
 
 describe("Test event listener", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(TracerService);
 	service.printRequest = jest.fn();
 
@@ -69,7 +69,7 @@ describe("Test event listener", () => {
 });
 
 describe("Test printRequest method", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(TracerService, {
 		settings: {
 			colors: false

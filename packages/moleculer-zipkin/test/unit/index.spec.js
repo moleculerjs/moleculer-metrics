@@ -7,7 +7,7 @@ const ZipkinService = require("../../src");
 const lolex = require("lolex");
 
 describe("Test ZipkinService constructor", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(ZipkinService);
 
 	it("should be created", () => {
@@ -20,7 +20,7 @@ describe("Test ZipkinService constructor", () => {
 describe("Test ZipkinService started & stopped", () => {
 
 	describe("with batchTime", () => {
-		const broker = new ServiceBroker();
+		const broker = new ServiceBroker({ logger: false });
 		const service = broker.createService(ZipkinService);
 
 		beforeAll(() => broker.start());
@@ -40,7 +40,7 @@ describe("Test ZipkinService started & stopped", () => {
 	});
 
 	describe("with batchTime & queued items", () => {
-		const broker = new ServiceBroker();
+		const broker = new ServiceBroker({ logger: false });
 		const service = broker.createService(ZipkinService);
 
 		beforeAll(() => broker.start());
@@ -59,7 +59,7 @@ describe("Test ZipkinService started & stopped", () => {
 	});
 
 	describe("without batchTime", () => {
-		const broker = new ServiceBroker();
+		const broker = new ServiceBroker({ logger: false });
 		const service = broker.createService(ZipkinService, {
 			settings: {
 				batchTime: 0
@@ -67,7 +67,7 @@ describe("Test ZipkinService started & stopped", () => {
 		});
 
 		beforeAll(() => broker.start());
-		beforeAll(() => broker.stop());
+		afterAll(() => broker.stop());
 
 		it("should not create timer", () => {
 			expect(service).toBeDefined();
@@ -80,7 +80,10 @@ describe("Test ZipkinService started & stopped", () => {
 });
 
 describe("Test event listener", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
+
+	beforeAll(() => broker.start());
+	afterAll(() => broker.stop());
 
 	it("should call makeZipkinPayloadV1 method", () => {
 		const service = broker.createService(ZipkinService, {
@@ -91,17 +94,20 @@ describe("Test event listener", () => {
 		service.makeZipkinPayloadV1 = jest.fn();
 		service.makeZipkinPayloadV2 = jest.fn();
 
-		const payload = { a: 5 };
-		broker.emit("metrics.trace.span.finish", payload);
+		return broker.Promise.delay(100).then(() => {
+			const payload = { a: 5 };
+			broker.emit("metrics.trace.span.finish", payload);
 
-		expect(service.makeZipkinPayloadV1).toHaveBeenCalledTimes(1);
-		expect(service.makeZipkinPayloadV1).toHaveBeenCalledWith(payload);
+			expect(service.makeZipkinPayloadV1).toHaveBeenCalledTimes(1);
+			expect(service.makeZipkinPayloadV1).toHaveBeenCalledWith(payload);
 
-		expect(service.makeZipkinPayloadV2).toHaveBeenCalledTimes(0);
+			expect(service.makeZipkinPayloadV2).toHaveBeenCalledTimes(0);
+		});
 	});
 
 	it("should call makeZipkinPayloadV2 method", () => {
 		const service = broker.createService(ZipkinService, {
+			name: "zipkin-v2",
 			settings: {
 				version: "v2"
 			}
@@ -109,19 +115,21 @@ describe("Test event listener", () => {
 		service.makeZipkinPayloadV1 = jest.fn();
 		service.makeZipkinPayloadV2 = jest.fn();
 
-		const payload = { a: 5 };
-		broker.emit("metrics.trace.span.finish", payload);
+		return broker.Promise.delay(100).then(() => {
+			const payload = { a: 5 };
+			broker.emit("metrics.trace.span.finish", payload);
 
-		expect(service.makeZipkinPayloadV2).toHaveBeenCalledTimes(1);
-		expect(service.makeZipkinPayloadV2).toHaveBeenCalledWith(payload);
+			expect(service.makeZipkinPayloadV2).toHaveBeenCalledTimes(1);
+			expect(service.makeZipkinPayloadV2).toHaveBeenCalledWith(payload);
 
-		expect(service.makeZipkinPayloadV1).toHaveBeenCalledTimes(0);
+			expect(service.makeZipkinPayloadV1).toHaveBeenCalledTimes(0);
+		});
 	});
 
 });
 
 describe("Test common methods", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(ZipkinService);
 
 	beforeEach(() => broker.start());
@@ -132,6 +140,7 @@ describe("Test common methods", () => {
 		expect(service.getServiceName({ action: { name: "serviceB.actionC" }})).toBe("serviceB");
 		expect(service.getServiceName({ action: { name: "serviceB.actionC" }})).toBe("serviceB");
 		expect(service.getServiceName({ action: { name: "service.nested.action" }})).toBe("service.nested");
+		expect(service.getServiceName({ service: { name: "serviceD", version: 3 }})).toBe("serviceD");
 	});
 
 	it("should give back the span name from payload", () => {
@@ -152,7 +161,7 @@ describe("Test common methods", () => {
 });
 
 describe("Test v1 payload creating", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(ZipkinService, { settings: { version: "v1" }});
 
 	beforeEach(() => broker.start());
@@ -407,7 +416,7 @@ describe("Test v1 payload creating", () => {
 });
 
 describe("Test v2 payload creating", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(ZipkinService, { settings: { version: "v2" }});
 
 	beforeEach(() => broker.start());
@@ -530,7 +539,7 @@ describe("Test v2 payload creating", () => {
 				"remoteCall": "false"
 			},
 			"timestamp": 1520505261078000,
-			"durationMicros": 64436
+			"duration": 64436
 		});
 	});
 
@@ -615,7 +624,7 @@ describe("Test v2 payload creating", () => {
 				"error.stack": "error stack",
 			},
 			"timestamp": 1520505261078000,
-			"durationMicros": 64436
+			"duration": 64436
 		});
 	});
 });
@@ -623,7 +632,7 @@ describe("Test v2 payload creating", () => {
 describe("Test sending & queueing", () => {
 
 	describe("with batching", () => {
-		const broker = new ServiceBroker();
+		const broker = new ServiceBroker({ logger: false });
 		const service = broker.createService(ZipkinService, { settings: { batchTime: 1000 }});
 
 		beforeEach(() => broker.start());
@@ -655,7 +664,7 @@ describe("Test sending & queueing", () => {
 	});
 
 	describe("without batching", () => {
-		const broker = new ServiceBroker();
+		const broker = new ServiceBroker({ logger: false });
 		const service = broker.createService(ZipkinService, { settings: { batchTime: 0 }});
 
 		beforeEach(() => broker.start());
@@ -688,7 +697,7 @@ describe("Test sending & queueing", () => {
 
 		beforeAll(() => {
 			clock = lolex.install();
-			broker = new ServiceBroker();
+			broker = new ServiceBroker({ logger: false });
 			service = broker.createService(ZipkinService, { settings: { batchTime: 500 }});
 			service.sendFromQueue = jest.fn();
 
@@ -711,7 +720,7 @@ describe("Test sending & queueing", () => {
 	});
 
 	describe("Test sending", () => {
-		const broker = new ServiceBroker();
+		const broker = new ServiceBroker({ logger: false });
 		const service = broker.createService(ZipkinService, { settings: { baseURL: "http://zipkin-server:9876" }});
 
 		beforeEach(() => broker.start());

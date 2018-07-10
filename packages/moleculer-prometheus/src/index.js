@@ -163,8 +163,6 @@ module.exports = {
 				if (def)
 					this.metrics[name] = new this.client[def.type](Object.assign({ name }, def));
 			});
-
-			this.updateCommonValues();
 		},
 
 		/**
@@ -240,6 +238,8 @@ module.exports = {
 
 		return this.server.listen(this.settings.port).then(() => {
 			this.logger.info(`Prometheus collector is listening on port ${this.settings.port}, metrics exposed on /metrics endpoint`);
+
+			this.updateCommonValues();
 		});
 	},
 

@@ -23,7 +23,7 @@ const { ServiceBroker } = require("moleculer");
 const PromService = require("../../src");
 
 describe("Test PromService constructor", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(PromService);
 
 	it("should be created", () => {
@@ -36,7 +36,7 @@ describe("Test PromService started & stopped", () => {
 
 	describe("with default settings", () => {
 
-		const broker = new ServiceBroker();
+		const broker = new ServiceBroker({ logger: false });
 		const service = broker.createService(PromService);
 
 		service.createMetrics = jest.fn();
@@ -144,10 +144,13 @@ describe("Test PromService started & stopped", () => {
 });
 
 describe("Test event listeners", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(PromService);
 	service.update = jest.fn();
 	service.updateCommonValues = jest.fn();
+
+	beforeAll(() => broker.start());
+	afterAll(() => broker.stop());
 
 	describe("emit 'metrics.trace.span.finish'", () => {
 
@@ -241,7 +244,7 @@ describe("Test event listeners", () => {
 });
 
 describe("Test common methods", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(PromService);
 
 	beforeEach(() => broker.start());
@@ -252,6 +255,7 @@ describe("Test common methods", () => {
 		expect(service.getServiceName({ action: { name: "serviceB.actionC" }})).toBe("serviceB");
 		expect(service.getServiceName({ action: { name: "serviceB.actionC" }})).toBe("serviceB");
 		expect(service.getServiceName({ action: { name: "service.nested.action" }})).toBe("service.nested");
+		expect(service.getServiceName({ service: { name: "serviceD", version: 3 }})).toBe("serviceD");
 	});
 
 	it("should give back the span name from payload", () => {
@@ -262,7 +266,7 @@ describe("Test common methods", () => {
 });
 
 describe("Test createMetrics method", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(PromService);
 
 	beforeEach(() => {
@@ -300,9 +304,6 @@ describe("Test createMetrics method", () => {
 		expect(Prometheus.Histogram).toHaveBeenCalledTimes(1);
 		expect(Prometheus.Histogram).toHaveBeenCalledWith({"name": "custom_val3", "labelNames": ["nodeID"], "help": "Custom value 3", "type": "Histogram"});
 
-		expect(service.updateCommonValues).toHaveBeenCalledTimes(1);
-		expect(service.updateCommonValues).toHaveBeenCalledWith();
-
 		expect(service.metrics).toEqual({
 			custom_val1: jasmine.any(Prometheus.Gauge),
 			custom_val2: jasmine.any(Prometheus.Counter),
@@ -313,37 +314,38 @@ describe("Test createMetrics method", () => {
 });
 
 describe("Test updateCommonValues method", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(PromService);
 
-	beforeEach(() => {
-		broker.start();
+	beforeAll(() => {
+		return broker.start().then(() => {
+			broker.mcall = jest.fn(() => Promise.resolve({
+				nodes: [
+					{ id: "node-1", available: true, client: { type: "node", version: "0.12.1", langVersion: "8.10.0" } },
+					{ id: "node-2", available: false, client: { type: "node", version: "0.12.1", langVersion: "8.10.0" } }
+				],
+				services: [
+					{ name: "posts", version: 2, nodes: [1,2] },
+					{ name: "users", nodes: [] },
+				],
+				actions: [
+					{ name: "posts.find", endpoints: [1,2,3] },
+					{ name: "users.find" }
+				],
+				events: [
+					{ name: "user.created", group: "users" },
+					{ name: "post.created", group: "posts", endpoints: [1,2,3] },
+				]
+			}));
 
-		broker.mcall = jest.fn(() => Promise.resolve({
-			nodes: [
-				{ id: "node-1", available: true, client: { type: "node", version: "0.12.1", langVersion: "8.10.0" } },
-				{ id: "node-2", available: false, client: { type: "node", version: "0.12.1", langVersion: "8.10.0" } }
-			],
-			services: [
-				{ name: "posts", version: 2, nodes: [1,2] },
-				{ name: "users", nodes: [] },
-			],
-			actions: [
-				{ name: "posts.find", endpoints: [1,2,3] },
-				{ name: "users.find" }
-			],
-			events: [
-				{ name: "user.created", group: "users" },
-				{ name: "post.created", group: "posts", endpoints: [1,2,3] },
-			]
-		}));
-
-		service.update = jest.fn();
+			service.update = jest.fn();
+		});
 	});
-	afterEach(() => broker.stop());
+	afterAll(() => broker.stop());
 
 	it("should call service.update method", () => {
 		service.metrics = {};
+		service.update.mockClear();
 
 		return service.updateCommonValues().then(() => {
 
@@ -379,7 +381,7 @@ describe("Test updateCommonValues method", () => {
 });
 
 describe("Test update method", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(PromService);
 
 	beforeEach(() => broker.start());

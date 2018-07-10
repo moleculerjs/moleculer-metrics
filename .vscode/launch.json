@@ -34,7 +34,7 @@
 			"name": "Jest",
 			"program": "${workspaceRoot}\\node_modules\\jest-cli\\bin\\jest.js",
 			"args": ["--runInBand"],
-			"cwd": "${workspaceRoot}",
+			"cwd": "${workspaceRoot}\\packages\\moleculer-prometheus",
 			"runtimeArgs": [
                 "--nolazy"
             ]

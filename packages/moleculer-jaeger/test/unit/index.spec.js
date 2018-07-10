@@ -16,7 +16,7 @@ const { ServiceBroker } = require("moleculer");
 const JaegerService = require("../../src");
 
 describe("Test JaegerService constructor", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(JaegerService);
 
 	it("should be created", () => {
@@ -28,7 +28,7 @@ describe("Test JaegerService constructor", () => {
 
 describe("Test JaegerService started & stopped", () => {
 
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(JaegerService);
 
 	beforeAll(() => broker.start());
@@ -52,23 +52,28 @@ describe("Test JaegerService started & stopped", () => {
 });
 
 describe("Test event listener", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
+
+	beforeAll(() => broker.start());
+	afterAll(() => broker.stop());
 
 	it("should call makePayload method", () => {
 		const service = broker.createService(JaegerService);
 		service.makePayload = jest.fn();
 
-		const payload = { a: 5 };
-		broker.emit("metrics.trace.span.finish", payload);
+		return broker.Promise.delay(100).then(() => {
+			const payload = { a: 5 };
+			broker.emit("metrics.trace.span.finish", payload);
 
-		expect(service.makePayload).toHaveBeenCalledTimes(1);
-		expect(service.makePayload).toHaveBeenCalledWith(payload);
+			expect(service.makePayload).toHaveBeenCalledTimes(1);
+			expect(service.makePayload).toHaveBeenCalledWith(payload);
+		});
 	});
 
 });
 
 describe("Test common methods", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(JaegerService);
 
 	beforeEach(() => broker.start());
@@ -79,6 +84,7 @@ describe("Test common methods", () => {
 		expect(service.getServiceName({ action: { name: "serviceB.actionC" }})).toBe("serviceB");
 		expect(service.getServiceName({ action: { name: "serviceB.actionC" }})).toBe("serviceB");
 		expect(service.getServiceName({ action: { name: "service.nested.action" }})).toBe("service.nested");
+		expect(service.getServiceName({ service: { name: "serviceD", version: 3 }})).toBe("serviceD");
 	});
 
 	it("should give back the span name from payload", () => {
@@ -94,7 +100,7 @@ describe("Test common methods", () => {
 });
 
 describe("Test payload creating", () => {
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(JaegerService);
 
 	beforeEach(() => broker.start());
@@ -324,7 +330,7 @@ describe("Test payload creating", () => {
 
 describe("Test getSampler method", () => {
 
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(JaegerService);
 
 	beforeEach(() => broker.start());
@@ -422,7 +428,7 @@ describe("Test getSampler method", () => {
 
 describe("Test getReporter method", () => {
 
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(JaegerService);
 
 	beforeEach(() => broker.start());
@@ -446,7 +452,7 @@ describe("Test getReporter method", () => {
 
 describe("Test getTracer method", () => {
 
-	const broker = new ServiceBroker();
+	const broker = new ServiceBroker({ logger: false });
 	const service = broker.createService(JaegerService);
 
 	let tracer;
