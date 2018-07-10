@@ -74,11 +74,8 @@ module.exports = {
 		 * @returns {String}
 		 */
 		getServiceName(metric) {
-			if (metric.service) {
-				if (metric.service.name)
-					return metric.service.name;
-				return metric.service;
-			}
+			if (metric.service)
+				return metric.service.name ? metric.service.name : metric.service;
 
 			let parts = metric.action.name.split(".");
 			parts.pop();
