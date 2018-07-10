@@ -127,7 +127,7 @@ module.exports = {
 		 */
 		getServiceName(metric) {
 			if (metric.service)
-				return metric.service;
+				return metric.service.name ? metric.service.name : metric.service;
 
 			let parts = metric.action.name.split(".");
 			parts.pop();
