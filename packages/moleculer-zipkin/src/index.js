@@ -72,8 +72,11 @@ module.exports = {
 		 * @returns {String}
 		 */
 		getServiceName(metric) {
-			if (metric.service)
+			if (metric.service) {
+				if (metric.service.name)
+					return metric.service.name;
 				return metric.service;
+			}
 
 			let parts = metric.action.name.split(".");
 			parts.pop();
@@ -180,11 +183,11 @@ module.exports = {
 				parentId: this.convertID(metric.parent),
 
 				localEndpoint: {
-					serviceName: serviceName.name ? serviceName.name : serviceName,
+					serviceName: serviceName,
 				},
 
 				remoteEndpoint: {
-					serviceName: serviceName.name ? serviceName.name : serviceName,
+					serviceName: serviceName,
 				},
 
 				annotations: [
