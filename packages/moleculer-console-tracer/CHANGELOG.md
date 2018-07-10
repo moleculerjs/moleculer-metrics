@@ -1,12 +1,7 @@
-<a name="0.x.x"></a>
-# 0.x.x (2017-xx-xx)
-
-## New
-
-## Fixes
-
-## Breaking changes
+<a name="0.2.0"></a>
+# 0.2.0 (2018-07-10)
 
 ## Changes
+- support Moleculer v0.13.x
 
 --------------------------------------------------
