@@ -26,7 +26,7 @@ module.exports = {
     // ...
 }
 
-// services/metrics.jaeger.js
+// services/metrics.jaeger.service.js
 const JaegerService = require("moleculer-jaeger");
 
 module.exports = {
@@ -35,7 +35,7 @@ module.exports = {
         host: "jaeger-server",
         port: 6832
     }
-});
+};
 ```
 
 ## Sampler configurations

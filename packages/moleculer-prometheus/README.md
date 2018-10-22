@@ -21,7 +21,7 @@ $ npm install moleculer-prometheus
 # Usage
 
 ```js
-// services/metrics.prometheus.js
+// services/metrics.prometheus.service.js
 
 const PromService = require("moleculer-prometheus");
 
@@ -32,7 +32,7 @@ module.exports = {
         collectDefaultMetrics: true,
         timeout: 5 * 1000, 
     }
-});
+};
 
 // moleculer.config.js
 module.exports = {

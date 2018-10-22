@@ -20,7 +20,7 @@ $ npm install moleculer-console-tracer
 # Usage
 
 ```js
-// services/metrics.tracer.js
+// services/metrics.tracer.service.js
 
 const Tracer = require("moleculer-console-tracer");
 
@@ -30,7 +30,7 @@ module.exports = {
         width: 100,
         gaugeWidth: 50
     }
-});
+};
 
 // moleculer.config.js
 module.exports = {
