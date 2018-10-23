@@ -20,7 +20,7 @@ $ npm install moleculer-zipkin
 # Usage
 
 ```js
-// services/metrics.zipkin.js
+// services/metrics.zipkin.service.js
 
 const ZipkinService = require("moleculer-zipkin");
 
@@ -35,7 +35,7 @@ module.exports = {
             shared: false
         }
     }
-});
+};
 
 // moleculer.config.js
 module.exports = {
