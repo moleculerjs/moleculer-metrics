@@ -455,6 +455,26 @@ describe("Test v2 payload creating", () => {
 		});
 	});
 
+	it("test addTags method with null", () => {
+		const payload = { tags: {} };
+		service.addTags(payload, "first", null);
+
+		expect(payload).toEqual({
+			tags: {
+				first: "null"
+			}
+		});
+	});
+
+	it("test addTags method with undefined", () => {
+		const payload = { tags: {} };
+		service.addTags(payload, "first", undefined);
+
+		expect(payload).toEqual({
+			tags: { }
+		});
+	});
+
 	it("test addTags method with object", () => {
 		const payload = { tags: {} };
 		service.addTags(payload, "first", { a: 5, b: { c: "John", d: true }});
