@@ -308,9 +308,9 @@ module.exports = {
 		 */
 		addTags(payload, key, value, prefix) {
 			const name = prefix ? `${prefix}.${key}` : key;
-			if (typeof value == "object") {
+			if (value && typeof value == "object") {
 				Object.keys(value).forEach(k => this.addTags(payload, k, value[k], name));
-			} else {
+			} else if (value !== undefined) {
 				payload.tags[name] = String(value);
 			}
 		},

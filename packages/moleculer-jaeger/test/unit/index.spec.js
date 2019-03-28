@@ -136,6 +136,25 @@ describe("Test payload creating", () => {
 		});
 	});
 
+	it("test addTags method with null", () => {
+		const span = { setTag: jest.fn((name, value) => span[name] = value) };
+		service.addTags(span, "first", null);
+
+		expect(span).toEqual({
+			"first": null,
+			setTag: jasmine.any(Function)
+		});
+	});
+
+	it("test addTags method with undefined", () => {
+		const span = { setTag: jest.fn((name, value) => span[name] = value) };
+		service.addTags(span, "first", undefined);
+
+		expect(span).toEqual({
+			setTag: jasmine.any(Function)
+		});
+	});
+
 	it("test addTags method with object", () => {
 		const span = { setTag: jest.fn((name, value) => span[name] = value) };
 		service.addTags(span, "first", { a: 5, b: { c: "John", d: true }});
