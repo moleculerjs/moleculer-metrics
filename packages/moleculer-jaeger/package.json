@@ -1,6 +1,6 @@
 {
   "name": "moleculer-jaeger",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Moleculer metrics module for Jaeger.",
   "main": "index.js",
   "scripts": {
