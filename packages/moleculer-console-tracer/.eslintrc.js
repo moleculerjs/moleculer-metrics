@@ -20,10 +20,11 @@ module.exports = {
 		"security"
 	],
 	"rules": {
+		"no-control-regex": "off",
 		"indent": [
 			"warn",
 			"tab",
-			{ SwitchCase: 1 }
+			{SwitchCase: 1}
 		],
 		"quotes": [
 			"warn",
