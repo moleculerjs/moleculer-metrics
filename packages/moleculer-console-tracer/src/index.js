@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-unsafe-regex */
 /*
  * moleculer-console-tracer
  * Copyright (c) 2018 MoleculerJS (https://github.com/moleculerjs/moleculer-addons)
