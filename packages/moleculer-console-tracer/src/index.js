@@ -7,8 +7,8 @@
 
 "use strict";
 
-const _ 			= require("lodash");
-const r 			= _.repeat;
+const isNaN 			= require("lodash.isnan");
+const r 			= require("lodash.repeat");
 const chalk 		= require("chalk");
 const humanize 		= require("tiny-human-time").short;
 const slice 		= require("slice-ansi");
@@ -197,7 +197,7 @@ module.exports = {
 			let gstart = (startTime - main.startTime) / (main.endTime - main.startTime) * 100;
 			let gstop = (endTime - main.startTime) / (main.endTime - main.startTime) * 100;
 
-			if (_.isNaN(gstart) && _.isNaN(gstop)) {
+			if (isNaN(gstart) && isNaN(gstop)) {
 				gstart = 0;
 				gstop = 100;
 			}
