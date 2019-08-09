@@ -3,7 +3,6 @@
 const { ServiceBroker } 	= require("moleculer");
 const { MoleculerError } 	= require("moleculer").Errors;
 const TracingService 		= require("../../index");
-const _ 					= require("lodash");
 const ApiGateway			= require("moleculer-web");
 
 const THROW_ERR = false;
@@ -43,7 +42,7 @@ broker.createService({
 				params: true,
 			},
 			handler(ctx) {
-				const posts = _.cloneDeep(POSTS);
+				const posts = POSTS.map(post=> ({...post}));
 
 				return this.Promise.all(posts.map(post => {
 					return this.Promise.all([
@@ -73,7 +72,7 @@ broker.createService({
 					.then(() => {
 						const user = USERS.find(user => user.id == ctx.params.id);
 						if (user) {
-							const res = _.cloneDeep(user);
+							const res = {...user};
 							return ctx.call("friends.count", { userID: user.id })
 								.then(friends => res.friends = friends)
 								.then(() => res);

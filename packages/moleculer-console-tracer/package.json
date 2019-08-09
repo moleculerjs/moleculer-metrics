@@ -28,15 +28,13 @@
     "moleculer": ">=0.12.0 || >=0.13.0"
   },
   "devDependencies": {
-    "benchmarkify": "^2.1.2",
-    "coveralls": "3.0.2",
-    "eslint": "5.1.0",
+    "coveralls": "3.0.6",
+    "eslint": "5.16.0",
     "eslint-plugin-node": "9.1.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-security": "1.4.0",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
-    "lolex": "2.7.1",
     "moleculer": "^0.13.9",
     "moleculer-docgen": "0.2.2",
     "moleculer-web": "0.9.0-beta6",
@@ -54,8 +52,9 @@
     "node": ">= 6.x.x"
   },
   "dependencies": {
-    "chalk": "2.4.1",
-    "lodash": "^4.17.15",
+    "chalk": "2.4.2",
+    "lodash.isnan": "3.0.2",
+    "lodash.repeat": "4.1.0",
     "slice-ansi": "1.0.0",
     "tiny-human-time": "1.2.0"
   }
