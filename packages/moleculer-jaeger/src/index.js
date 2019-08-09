@@ -6,7 +6,7 @@
 
 "use strict";
 
-const _ = require("lodash");
+const isFunction = require("lodash.isfunction");
 const Jaeger = require("jaeger-client");
 const GuaranteedThroughputSampler = require("jaeger-client/dist/src/samplers/guaranteed_throughput_sampler").default;
 const RemoteControlledSampler = require("jaeger-client/dist/src/samplers/remote_sampler").default;
@@ -199,7 +199,7 @@ module.exports = {
 		 *
 		 */
 		getSampler(serviceName) {
-			if (_.isFunction(this.settings.sampler))
+			if (isFunction(this.settings.sampler))
 				return this.settings.sampler;
 
 			if (this.settings.sampler.type == "RateLimiting")

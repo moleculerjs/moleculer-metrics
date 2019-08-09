@@ -3,7 +3,6 @@
 const { ServiceBroker } 	= require("moleculer");
 const { MoleculerError } 	= require("moleculer").Errors;
 const PromService 			= require("../../index");
-const _ 					= require("lodash");
 
 // Create broker
 const broker = new ServiceBroker({

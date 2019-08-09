@@ -3,7 +3,6 @@
 const { ServiceBroker } 	= require("moleculer");
 const { MoleculerError } 	= require("moleculer").Errors;
 const ZipkinService 		= require("../../index");
-const _ 					= require("lodash");
 const ApiGateway			= require("moleculer-web");
 
 const THROW_ERR = true;
@@ -42,7 +41,7 @@ broker.createService({
 				params: true,
 			},
 			handler(ctx) {
-				const posts = _.cloneDeep(POSTS);
+				const posts = POSTS.map( x=> ({...x}));
 
 				return this.Promise.all(posts.map(post => {
 					return this.Promise.all([
@@ -70,9 +69,9 @@ broker.createService({
 			handler(ctx) {
 				return this.Promise.resolve()
 					.then(() => {
-						const user = USERS.find(user => user.id == ctx.params.id);
+						const user = USERS.find(user => user.id === ctx.params.id);
 						if (user) {
-							const res = _.cloneDeep(user);
+							const res = {...user};
 							return ctx.call("friends.count", { userID: user.id })
 								.then(friends => res.friends = friends)
 								.then(() => res);
@@ -107,7 +106,7 @@ broker.createService({
 				meta: false,
 			},
 			handler(ctx) {
-				if (THROW_ERR && ctx.params.userID == 1)
+				if (THROW_ERR && ctx.params.userID === 1)
 					throw new MoleculerError("Friends is not found!", 404, "FRIENDS_NOT_FOUND", { userID: ctx.params.userID });
 
 				return this.Promise.resolve().delay(30).then(() => ctx.params.userID * 3);
