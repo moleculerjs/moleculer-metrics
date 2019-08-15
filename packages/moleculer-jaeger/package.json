@@ -16,6 +16,9 @@
     "microservice",
     "moleculer"
   ],
+  "pre-commit": [
+    "lint"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:moleculerjs/moleculer-addons.git"
@@ -27,17 +30,19 @@
     "moleculer": ">=0.12.0 || >=0.13.0"
   },
   "devDependencies": {
-    "benchmarkify": "2.1.0",
-    "coveralls": "3.0.2",
-    "eslint": "5.1.0",
-    "jest": "23.3.0",
-    "jest-cli": "23.3.0",
-    "lolex": "2.7.1",
-    "moleculer": "0.13.0",
-    "moleculer-docgen": "0.2.1",
-    "moleculer-web": "0.8.0",
-    "nodemon": "1.17.5",
-    "npm-check": "5.7.1"
+    "coveralls": "3.0.5",
+    "eslint": "5.16.0",
+    "eslint-plugin-node": "9.1.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-security": "1.4.0",
+    "jest": "24.8.0",
+    "jest-cli": "24.8.0",
+    "moleculer": "0.13.9",
+    "moleculer-docgen": "0.2.2",
+    "moleculer-web": "0.9.0-beta6",
+    "nodemon": "1.19.1",
+    "pre-commit": "^1.2.2",
+    "npm-check": "5.9.0"
   },
   "jest": {
     "testEnvironment": "node",
@@ -50,8 +55,8 @@
     "node": ">= 6.x.x"
   },
   "dependencies": {
-    "jaeger-client": "3.11.0",
-    "lodash": "4.17.10",
+    "jaeger-client": "3.15.0",
+    "lodash.isfunction": "3.0.9",
     "node-int64": "0.4.0"
   }
 }

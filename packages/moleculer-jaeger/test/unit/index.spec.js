@@ -81,15 +81,15 @@ describe("Test common methods", () => {
 
 	it("should give back the service name from payload", () => {
 		expect(service.getServiceName({ service: "serviceA" })).toBe("serviceA");
-		expect(service.getServiceName({ action: { name: "serviceB.actionC" }})).toBe("serviceB");
-		expect(service.getServiceName({ action: { name: "serviceB.actionC" }})).toBe("serviceB");
-		expect(service.getServiceName({ action: { name: "service.nested.action" }})).toBe("service.nested");
-		expect(service.getServiceName({ service: { name: "serviceD", version: 3 }})).toBe("serviceD");
+		expect(service.getServiceName({ action: { name: "serviceB.actionC" } })).toBe("serviceB");
+		expect(service.getServiceName({ action: { name: "serviceB.actionC" } })).toBe("serviceB");
+		expect(service.getServiceName({ action: { name: "service.nested.action" } })).toBe("service.nested");
+		expect(service.getServiceName({ service: { name: "serviceD", version: 3 } })).toBe("serviceD");
 	});
 
 	it("should give back the span name from payload", () => {
 		expect(service.getSpanName({ name: "custom-event" })).toBe("custom-event");
-		expect(service.getSpanName({ action: { name: "service.action" }})).toBe("service.action");
+		expect(service.getSpanName({ action: { name: "service.action" } })).toBe("service.action");
 	});
 
 	it("should convert context ID to Zipkin ID", () => {
@@ -157,7 +157,7 @@ describe("Test payload creating", () => {
 
 	it("test addTags method with object", () => {
 		const span = { setTag: jest.fn((name, value) => span[name] = value) };
-		service.addTags(span, "first", { a: 5, b: { c: "John", d: true }});
+		service.addTags(span, "first", { a: 5, b: { c: "John", d: true } });
 
 		expect(span).toEqual({
 			"first.a": 5,
@@ -239,8 +239,8 @@ describe("Test payload creating", () => {
 		expect(service.addTags).toHaveBeenCalledTimes(5);
 		expect(service.addTags).toHaveBeenCalledWith(span, "service", "votes");
 		expect(service.addTags).toHaveBeenCalledWith(span, "action", "votes.count");
-		expect(service.addTags).toHaveBeenCalledWith(span, "params", {"postID": 3});
-		expect(service.addTags).toHaveBeenCalledWith(span, "meta", {"user": {"name": "John"}});
+		expect(service.addTags).toHaveBeenCalledWith(span, "params", { "postID": 3 });
+		expect(service.addTags).toHaveBeenCalledWith(span, "meta", { "user": { "name": "John" } });
 
 		expect(span.context).toHaveBeenCalledTimes(1);
 		expect(span.context).toHaveBeenCalledWith();
@@ -326,7 +326,7 @@ describe("Test payload creating", () => {
 		expect(service.addTags).toHaveBeenCalledTimes(11);
 		expect(service.addTags).toHaveBeenCalledWith(span, "service", "votes");
 		expect(service.addTags).toHaveBeenCalledWith(span, "action", "votes.count");
-		expect(service.addTags).toHaveBeenCalledWith(span, "meta", {"user": {"name": "John"}});
+		expect(service.addTags).toHaveBeenCalledWith(span, "meta", { "user": { "name": "John" } });
 		expect(service.addTags).toHaveBeenCalledWith(span, "callerNodeID", "node-99");
 
 		expect(service.addTags).toHaveBeenCalledWith(span, "error", true);
@@ -480,7 +480,7 @@ describe("Test getTracer method", () => {
 	afterAll(() => broker.stop());
 
 	it("should create a new tracer", () => {
-		const sampler = { a: 5};
+		const sampler = { a: 5 };
 		const reporter = { b: 6 };
 		service.getSampler = jest.fn(() => sampler);
 		service.getReporter = jest.fn(() => reporter);
