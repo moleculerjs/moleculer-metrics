@@ -1,6 +1,6 @@
 {
   "name": "moleculer-zipkin",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Moleculer metrics module for Zipkin.",
   "main": "index.js",
   "scripts": {
