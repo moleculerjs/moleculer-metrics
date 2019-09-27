@@ -24,20 +24,20 @@
   "license": "MIT",
   "homepage": "https://github.com/moleculerjs/moleculer-metrics#readme",
   "devDependencies": {
-    "coveralls": "3.0.5",
+    "coveralls": "3.0.6",
     "eslint": "5.16.0",
     "eslint-plugin-node": "9.1.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-security": "1.4.0",
-    "glob": "7.1.2",
-    "jest": "24.8.0",
-    "jest-cli": "24.8.0",
-    "lerna": "2.3.1",
+    "glob": "7.1.4",
+    "jest": "24.9.0",
+    "jest-cli": "24.9.0",
+    "lerna": "3.16.4",
     "markdown-magic": "0.1.25",
-    "nodemon": "1.19.1"
+    "nodemon": "1.19.2"
   },
   "dependencies": {
-    "moleculer-cli": "0.6.4"
+    "moleculer-cli": "0.6.6"
   },
   "jest": {
     "testEnvironment": "node",
