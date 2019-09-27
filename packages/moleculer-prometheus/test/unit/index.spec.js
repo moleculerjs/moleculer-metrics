@@ -52,7 +52,7 @@ describe("Test PromService started & stopped", () => {
 			expect(service.client).toBe(Prometheus);
 
 			expect(Prometheus.collectDefaultMetrics).toHaveBeenCalledTimes(1);
-			expect(Prometheus.collectDefaultMetrics).toHaveBeenCalledWith({ timeout: 10000 });
+			expect(Prometheus.collectDefaultMetrics).toHaveBeenCalledWith({ timeout: 10000, register: expect.any(Prometheus.Registry) });
 
 			expect(service.createMetrics).toHaveBeenCalledTimes(1);
 			expect(service.createMetrics).toHaveBeenCalledWith(service.settings.metrics);
@@ -71,7 +71,7 @@ describe("Test PromService started & stopped", () => {
 				setHeader: jest.fn(),
 				end: jest.fn()
 			};
-			service.client.register.metrics = jest.fn(() => "data");
+			service.register.metrics = jest.fn(() => "data");
 
 			pathCB(null, res);
 
@@ -80,7 +80,7 @@ describe("Test PromService started & stopped", () => {
 
 			expect(res.end).toHaveBeenCalledTimes(1);
 			expect(res.end).toHaveBeenCalledWith("data");
-			expect(service.client.register.metrics).toHaveBeenCalledTimes(1);
+			expect(service.register.metrics).toHaveBeenCalledTimes(1);
 		});
 
 		it("should destroy timer", () => {
@@ -296,13 +296,13 @@ describe("Test createMetrics method", () => {
 		});
 
 		expect(Prometheus.Gauge).toHaveBeenCalledTimes(1);
-		expect(Prometheus.Gauge).toHaveBeenCalledWith({"name": "custom_val1", "labelNames": ["nodeID", "service"], "help": "Custom value 1", "type": "Gauge"});
+		expect(Prometheus.Gauge).toHaveBeenCalledWith({"name": "custom_val1", "labelNames": ["nodeID", "service"], "help": "Custom value 1", "type": "Gauge", "registers":[]});
 
 		expect(Prometheus.Counter).toHaveBeenCalledTimes(1);
-		expect(Prometheus.Counter).toHaveBeenCalledWith({"name": "custom_val2", "labelNames": ["nodeID"], "help": "Custom value 2", "type": "Counter"});
+		expect(Prometheus.Counter).toHaveBeenCalledWith({"name": "custom_val2", "labelNames": ["nodeID"], "help": "Custom value 2", "type": "Counter", "registers":[]});
 
 		expect(Prometheus.Histogram).toHaveBeenCalledTimes(1);
-		expect(Prometheus.Histogram).toHaveBeenCalledWith({"name": "custom_val3", "labelNames": ["nodeID"], "help": "Custom value 3", "type": "Histogram"});
+		expect(Prometheus.Histogram).toHaveBeenCalledWith({"name": "custom_val3", "labelNames": ["nodeID"], "help": "Custom value 3", "type": "Histogram", "registers":[]});
 
 		expect(service.metrics).toEqual({
 			custom_val1: jasmine.any(Prometheus.Gauge),

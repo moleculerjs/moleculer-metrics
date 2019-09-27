@@ -161,7 +161,10 @@ module.exports = {
 				const def = metricsDefs[name];
 
 				if (def)
-					this.metrics[name] = new this.client[def.type](Object.assign({ name }, def));
+					this.metrics[name] = new this.client[def.type](Object.assign({
+						name,
+						registers: this.register? [this.register]:[]
+					}, def));
 			});
 		},
 
@@ -224,16 +227,20 @@ module.exports = {
 	 */
 	started() {
 		this.client = require("prom-client");
+		this.register = new this.client.Registry();
 
 		if (this.settings.collectDefaultMetrics) {
-			this.timer = this.client.collectDefaultMetrics({ timeout: this.settings.timeout });
+			this.timer = this.client.collectDefaultMetrics({
+				timeout: this.settings.timeout,
+				register: this.register
+			 });
 		}
 
 		this.createMetrics(this.settings.metrics);
 
 		this.server.get("/metrics", (req, res) => {
 			res.setHeader("Content-Type", this.client.contentType);
-			res.end(this.client.register.metrics());
+			res.end(this.register.metrics());
 		});
 
 		return this.server.listen(this.settings.port).then(() => {
@@ -251,6 +258,8 @@ module.exports = {
 			clearInterval(this.timer);
 			this.timer = null;
 		}
+
+		this.register = null;
 
 		if (this.server)
 			this.server.server.close();
