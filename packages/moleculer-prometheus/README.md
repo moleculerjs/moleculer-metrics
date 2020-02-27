@@ -55,7 +55,7 @@ module.exports = {
            "custom_value": { type: "Gauge", help: "Moleculer Prometheus custom metric" } 
         } 
     }
-});
+};
 ```
 
 **Broadcast a `metrics.update` event to set the metric value**
