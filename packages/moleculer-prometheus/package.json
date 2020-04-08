@@ -1,6 +1,6 @@
 {
   "name": "moleculer-prometheus",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Moleculer metrics module for Prometheus.",
   "main": "index.js",
   "scripts": {
