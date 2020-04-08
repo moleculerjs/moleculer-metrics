@@ -352,7 +352,7 @@ describe("Test updateCommonValues method", () => {
 			expect(broker.mcall).toHaveBeenCalledTimes(1);
 			expect(broker.mcall).toHaveBeenCalledWith({
 				nodes: { action: "$node.list" },
-				services: { action: "$node.services", params: { withActions: false, skipInternal: true } },
+				services: { action: "$node.services", params: { withActions: false, grouping: true, skipInternal: true } },
 				actions: { action: "$node.actions", params: { withEndpoints: true, skipInternal: true } },
 				events: { action: "$node.events", params: { withEndpoints: true, skipInternal: true } }
 			});

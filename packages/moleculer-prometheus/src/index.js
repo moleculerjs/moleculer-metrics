@@ -176,7 +176,7 @@ module.exports = {
 
 			return this.broker.mcall({
 				nodes: { action: "$node.list" },
-				services: { action: "$node.services", params: { withActions: false, skipInternal: true } },
+				services: { action: "$node.services", params: { withActions: false, grouping: true, skipInternal: true } },
 				actions: { action: "$node.actions", params: { withEndpoints: true, skipInternal: true } },
 				events: { action: "$node.events", params: { withEndpoints: true, skipInternal: true } }
 			}).then(({ nodes, services, actions, events}) => {
