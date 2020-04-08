@@ -11,6 +11,7 @@
     "ci": "jest --watch",
     "coverall": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "init": "cd packages && moleculer init addon",
+    "audit": "lerna exec --concurrency 1 npm audit fix",
     "deps": "lerna exec --concurrency 1 npm run deps",
     "release": "lerna publish",
     "readme": "node readme-generator.js"
@@ -37,7 +38,7 @@
     "nodemon": "1.19.2"
   },
   "dependencies": {
-    "moleculer-cli": "0.7.0"
+    "moleculer-cli": "0.6.6"
   },
   "jest": {
     "testEnvironment": "node",

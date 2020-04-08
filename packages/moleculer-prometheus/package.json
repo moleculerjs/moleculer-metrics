@@ -37,7 +37,7 @@
     "moleculer": "0.13.9",
     "moleculer-docgen": "0.2.2",
     "nodemon": "1.17.5",
-    "npm-check": "5.7.1"
+    "npm-check": "^5.9.2"
   },
   "jest": {
     "testEnvironment": "node",

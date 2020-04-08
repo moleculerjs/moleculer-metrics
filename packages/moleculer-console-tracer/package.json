@@ -28,7 +28,7 @@
     "moleculer": ">=0.12.0 || >=0.13.0"
   },
   "devDependencies": {
-    "coveralls": "3.0.6",
+    "coveralls": "^3.0.11",
     "eslint": "5.16.0",
     "eslint-plugin-node": "9.1.0",
     "eslint-plugin-promise": "4.2.1",
@@ -37,9 +37,9 @@
     "jest-cli": "24.8.0",
     "moleculer": "^0.13.9",
     "moleculer-docgen": "0.2.2",
-    "moleculer-web": "0.9.0-beta6",
+    "moleculer-web": "^0.9.1",
     "nodemon": "1.17.5",
-    "npm-check": "5.7.1"
+    "npm-check": "^5.9.2"
   },
   "jest": {
     "testEnvironment": "node",

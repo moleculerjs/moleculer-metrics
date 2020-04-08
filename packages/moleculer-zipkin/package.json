@@ -38,9 +38,9 @@
     "lolex": "^4.2.0",
     "moleculer": "0.13.9",
     "moleculer-docgen": "0.2.2",
-    "moleculer-web": "0.8.5",
+    "moleculer-web": "^0.9.1",
     "nodemon": "1.19.1",
-    "npm-check": "5.9.0"
+    "npm-check": "^5.9.2"
   },
   "jest": {
     "testEnvironment": "node",
