@@ -1,15 +1,14 @@
 "use strict";
 
 jest.mock("jaeger-client");
-const Jaeger = require("jaeger-client");
-
+jest.mock("jaeger-client/dist/src/samplers/const_sampler");
 jest.mock("jaeger-client/dist/src/samplers/guaranteed_throughput_sampler");
-const GuaranteedThroughputSampler = require("jaeger-client/dist/src/samplers/guaranteed_throughput_sampler").default;
-
 jest.mock("jaeger-client/dist/src/samplers/remote_sampler");
-const RemoteControlledSampler = require("jaeger-client/dist/src/samplers/remote_sampler").default;
-
 jest.mock("jaeger-client/dist/src/reporters/udp_sender");
+
+const Jaeger = require("jaeger-client");
+const GuaranteedThroughputSampler = require("jaeger-client/dist/src/samplers/guaranteed_throughput_sampler").default;
+const RemoteControlledSampler = require("jaeger-client/dist/src/samplers/remote_sampler").default;
 const UDPSender = require("jaeger-client/dist/src/reporters/udp_sender").default;
 
 const { ServiceBroker } = require("moleculer");
