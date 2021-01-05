@@ -39,6 +39,9 @@ module.exports = {
 	 * Default settings
 	 */
 	settings: {
+		/** @type {String} Exposed HTTP hostname. */
+		hostname: "localhost",
+		
 		/** @type {Number} Exposed HTTP port. */
 		port: 3030,
 
@@ -243,8 +246,8 @@ module.exports = {
 			res.end(this.register.metrics());
 		});
 
-		return this.server.listen(this.settings.port).then(() => {
-			this.logger.info(`Prometheus collector is listening on port ${this.settings.port}, metrics exposed on /metrics endpoint`);
+		return this.server.listen(this.settings.port, this.settings.hostname).then(() => {
+			this.logger.info(`Prometheus collector is listening on ${this.settings.hostname}:${this.settings.port}, metrics exposed on /metrics endpoint`);
 
 			this.updateCommonValues();
 		});
