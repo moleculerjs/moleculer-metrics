@@ -63,7 +63,7 @@ describe("Test PromService started & stopped", () => {
 			expect(MockPolka.get).toHaveBeenCalledWith("/metrics", jasmine.any(Function));
 
 			expect(MockPolka.listen).toHaveBeenCalledTimes(1);
-			expect(MockPolka.listen).toHaveBeenCalledWith(3030);
+			expect(MockPolka.listen).toHaveBeenCalledWith(3030, "localhost");
 		});
 
 		it("should set res header and content", () => {
@@ -99,7 +99,8 @@ describe("Test PromService started & stopped", () => {
 		it("change settings", () => {
 			service.settings = {
 				collectDefaultMetrics: false,
-				port: 4567
+				port: 4567,
+				hostname: "0.0.0.0"
 			};
 
 			service.createMetrics = jest.fn();
@@ -125,7 +126,7 @@ describe("Test PromService started & stopped", () => {
 			expect(MockPolka.get).toHaveBeenCalledWith("/metrics", jasmine.any(Function));
 
 			expect(MockPolka.listen).toHaveBeenCalledTimes(1);
-			expect(MockPolka.listen).toHaveBeenCalledWith(4567);
+			expect(MockPolka.listen).toHaveBeenCalledWith(4567, "0.0.0.0");
 		});
 
 		it("should not destroy timer", () => {
