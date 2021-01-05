@@ -87,6 +87,7 @@ broker.broadcast("metrics.update", {
 | Property | Type | Default | Description |
 | -------- | ---- | ------- | ----------- |
 | `port` | `Number` | `3030` | Exposed HTTP port. |
+| `hostname` | `String` | `localhost` | Exposed HTTP hostname. |
 | `collectDefaultMetrics` | `Boolean` | `true` | Enable to collect default metrics. |
 | `timeout` | `Number` | `10000` | Timeout option for 'collectDefaultMetrics' in milliseconds. |
 | `metrics` | `Object` | `{}` | Metric definitions. |
